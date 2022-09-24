@@ -4,6 +4,10 @@ public class Nodo <T> {
     private T elemento;
     private Nodo<T> siguiente;
 
+    public Nodo(){
+        this.elemento = null;
+        this.siguiente = null;
+    }
 
     public Nodo(Nodo sig, T elem){
         elemento = elem;

@@ -2,7 +2,7 @@ package colecciones.pila;
 
 public class Main {
     public static void main(String[] args){
-        Pila nuevaPila = new <Integer> PilaArreglo(5);
+        Pila <Integer> nuevaPila = new PilaListaE<Integer>();
         nuevaPila.apilar(2);
         nuevaPila.apilar(2);
         nuevaPila.apilar(2);

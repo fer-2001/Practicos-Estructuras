@@ -22,7 +22,10 @@ public class PilaListaE <T> implements Pila<T>{
 
     @Override
     public boolean apilar(T elem) {
-        Nodo aux = new Nodo(tope, elem);
+        //Nodo aux = new Nodo(tope, elem);
+        Nodo aux = new Nodo();
+        aux.setSiguiente(tope);
+        aux.setElemento(elem);
         tope = aux;
         elementos++;
         return true;
