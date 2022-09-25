@@ -15,6 +15,7 @@ package colecciones.cola;
 *   <li> toString	: Retorna una representación en forma de cadena</li>
 *   <li> equals		: Permite evaluar si otra instancia de cola es igual a esta</li>
 * </ul>
+@author: Manuel Fernandez
 */
 public interface Cola<T> {
 	
