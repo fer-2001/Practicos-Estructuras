@@ -18,7 +18,7 @@ public class ListaConjuntos implements Conjuntos{
 		}
 		else{
 			if (!pertenece(elem)){
-				int i = 1;
+				int i = 0;
 				Nodo aux2;
 				aux2 = lista;
 				while(i < elementos){
@@ -27,8 +27,8 @@ public class ListaConjuntos implements Conjuntos{
 				}
 				Nodo aux = new Nodo();
 				aux.setDato(elem);
-				aux2.setNext(aux);
 				aux.setBack(aux2);
+				aux2.setNext(aux);
 				elementos++;
 			}
 		}
@@ -56,11 +56,12 @@ public class ListaConjuntos implements Conjuntos{
 
 	public void union(ListaConjuntos ys){
 		Nodo aux = ys.getCabeza();
-		for(int i = 0; i < ys.getElementos(); i++){
+		for(int i = 0; i < ys.getElementos()-1; i++){
 			Object dato = aux.getDato();
+			System.out.println("Valor del dato:" + dato);
 			aux = aux.getNext();
-			this.ins(dato);
-			elementos++;
+			ins(dato);
+			this.elementos++;
 		}
 	}
 
