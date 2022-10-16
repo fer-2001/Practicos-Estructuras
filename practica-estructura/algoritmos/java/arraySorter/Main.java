@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class Main {
 
    public static void main(String[] args) {
-
+      
       Integer[] arreglo = ArrayGenerator.generarArregloDeLongitud(0, 100, 10);
       System.out.println("Arreglo random, tamaño 10 y valores entre 0 y 100:\n" + Arrays.toString(arreglo));
       ArraySorter.bubbleSort(arreglo);
@@ -20,6 +20,11 @@ public class Main {
       System.out.println("Arreglo random, tamaño 30 y valores entre 0 y 100:\n" + Arrays.toString(arreglo));
       ArraySorter.selectionSort(arreglo);
       System.out.println("Arreglo ordenado con SelectionSort:\n" + Arrays.toString(arreglo));
+
+      Integer[] arreglo1 = ArrayGenerator.generarArregloDeLongitud(0, 100, 10);
+      System.out.println("Arreglo random, tamaño 10 y valores entre 0 y 100:\n" + Arrays.toString(arreglo1));
+      ArraySorter.quickSort(arreglo1);
+      System.out.println("Arreglo ordenado con quickSort:\n" + Arrays.toString(arreglo1));
 
    }
 
