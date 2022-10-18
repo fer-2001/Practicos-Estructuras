@@ -131,7 +131,7 @@ public class ArraySorter {
    */
    public static void mergeSort(Integer[] inputArray) {
        int inputLength = inputArray.length;
-       
+       // Caso base para cortar la recursion (tenemos un unico nodo en este punto)
        if (inputLength < 2) {
          return;
        }
@@ -185,7 +185,11 @@ public class ArraySorter {
     
   }
 
+  public static Integer[] radixSort(Integer[] entrada){
 
+   
+   
+  }
 
    /* (non-Javadoc)
    * Este método intercambia dos posiciones de un arreglo.

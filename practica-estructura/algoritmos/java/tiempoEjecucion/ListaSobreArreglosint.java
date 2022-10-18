@@ -15,14 +15,75 @@ public class ListaSobreArreglosint{
  		numItems = 0;
  }
 
+ // Agrega elementos (NO GARANTIZA QUE SE RESPETE ORDEN)
  	public boolean agregar(int elemento){
  		if(numItems == item.length){
  			throw new ArrayIndexOutOfBoundsException("Arreglo lleno");
  		}
+
  		item[numItems] = elemento;
  		numItems++;
  		return true;
  	}
+
+// Hacer version de agregar de forma ordenada
+ 	/*
+ 	public boolean insertar(int elemento){
+ 		if(numItems == item.length){
+ 			throw new ArrayIndexOutOfBoundsException("Arreglo lleno");
+ 		}
+ 		
+ 		boolean cond = false;
+ 		// Busqueda de posicion para insertar el nuevo elemento
+
+
+ 		// Insercion del elemento en la posicion antes encontrada
+ 		if(i>=numItems){
+ 			item[numItems] = elemento;
+ 			numItems++;
+ 			return true;
+ 		}
+ 		else{
+ 			for(int j = numItems; j >= i-1; j--){
+ 				item[j+1] = item[j];
+ 			}
+ 			item[i] = elemento;
+ 		}
+		*/
+ 		/*
+ 		if(numItems == 0){
+ 			agregar(elemento);
+ 			return true;
+ 		}
+ 		
+        boolean cond = false;
+         for(int j=0; j<numItems; j++){
+ 			if((elemento > item[j])){
+ 				cond = true;
+ 			}
+ 			else{
+ 				cond = false;
+ 			}
+ 		}
+
+ 		if(cond){
+ 			agregar(elemento);
+ 			return true;
+ 		}
+ 		
+
+ 		int i = numItems;
+ 		while(i >= 0 && item[i] > elemento){
+ 			item[i + 1] = item[i];
+ 			i--;
+ 		}
+        
+       
+        item[i + 1] = elemento;
+
+ 	return true;
+
+ 	}*/
 
  	public void vaciar(){
  		numItems = 0;
@@ -46,7 +107,6 @@ public class ListaSobreArreglosint{
 		// Indice del medio
 		int medio;
 		while(izq <= der){
-			cant++;
 			medio = (izq + der) / 2;
 			if (item[medio] == x){
 				pos = medio;
@@ -67,5 +127,13 @@ public class ListaSobreArreglosint{
         return item[indice];
     }
 
+    @Override
+    public String toString(){
+        String resultado = "";
+        for(int i=0; i<numItems; i++){
+            resultado = resultado + "[" + item[i] + "]";
+        }
+        return resultado;
+    }
 
 }
