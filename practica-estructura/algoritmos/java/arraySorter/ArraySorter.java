@@ -1,5 +1,7 @@
 package arraySorter;
 import java.util.Random;
+import java.io.*;
+import java.util.*;
 /**
 * Provee métodos para ordenar arreglos de objetos comparables.
 * Los algoritmos de ordenamiento provistos por esta clase son:
@@ -63,6 +65,12 @@ public class ArraySorter {
          quickSort(array, 0, array.length - 1);
    }
 
+    /**
+     *
+     * @param array
+     * @param lowIndex
+     * @param highIndex
+     */
   private static void quickSort(Integer[] array, int lowIndex, int highIndex) {
        if (lowIndex >= highIndex) {
          return;
@@ -82,6 +90,12 @@ public class ArraySorter {
        quickSort(array, leftPointer + 1, highIndex);
 
   }
+
+    /*
+        (Non-javaDoc)
+        Metodo privado que utiliza el metodo quicSort para realizar el ordenamiento por 
+        medio de particiones.
+     */
 
   private static int partition(Integer[] array, int lowIndex, int highIndex, Integer pivot) {
        int leftPointer = lowIndex;
@@ -153,6 +167,13 @@ public class ArraySorter {
        merge(inputArray, leftHalf, rightHalf);
     }
 
+/*
+    Metodo privado para realizar el ordenamiento por el metodo merge.
+    Toma el arreglo de entrada, y dos arreglos "mitades" para realizar la recursividad.
+    En el metodo publico solo se provee el arreglo de entrada.
+
+*/
+
   private static void merge (Integer[] inputArray, Integer[] leftHalf, Integer[] rightHalf) {
     int leftSize = leftHalf.length;
     int rightSize = rightHalf.length;
@@ -185,10 +206,57 @@ public class ArraySorter {
     
   }
 
-  public static Integer[] radixSort(Integer[] entrada){
+    /**
+     * Ordena un arreglo contabilizando la cantidad de apariciones de un digito
+      * @param array: Arreglo a ordenar
+     * @param n: Largo del arreglo a ordenar
+     * @param exp: Exponente en base 10
+     */
+public static void countingSort(Integer array[], int n, int exp)
+    {
+        Integer salida[] = new Integer[n]; // output array
+        int i;
+        Integer count[] = new Integer[10];
+        Arrays.fill(count, 0);
+ 
+        // Cuenta la cantidad de ocurrencias de cada numero
+        for (i = 0; i < n; i++){
+            count[(array[i] / exp) % 10]++;
 
-   
-   
+        }
+        //System.out.println("Count:" + Arrays.toString(count));
+ 
+        // Reorganiza el arreglo count para determinar la posicion final 
+        // de los digitos
+        for (i = 1; i < 10; i++)
+            count[i] += count[i - 1];
+ 
+        //System.out.println("Count ordenado:" + Arrays.toString(count));
+
+        // Construye en salida el arreglo que retorna el metodo
+        for (i = n - 1; i >= 0; i--) {
+            salida[count[(array[i] / exp) % 10] - 1] = array[i];
+            count[(array[i] / exp) % 10]--;
+        }
+
+        // Copia los valores del arreglo de salida al arreglo del parametro.
+        for (i = 0; i < n; i++)
+            array[i] = salida[i];
+    }
+
+    /**
+     * Ordena un arreglo por el metodo radix. Por cada digito, realiza un ordenamiento hasta llegar
+     * al numero maximo de digitos.
+     * @param entrada arreglo que se desea ordenar
+     * @return: el arreglo "entrada" en forma ordenada
+     */
+  public static Integer[] radixSort(Integer[] entrada){
+    int max = indexOfLargest(entrada, entrada.length);
+    max = entrada[max]; 
+    for (int exp = 1; max / exp > 0; exp *= 10){
+            countingSort(entrada, entrada.length, exp);
+    }
+    return entrada;
   }
 
    /* (non-Javadoc)
@@ -218,5 +286,4 @@ public class ArraySorter {
     array[index1] = array[index2];
     array[index2] = temp;
   }
-
 }
