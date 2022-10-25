@@ -222,16 +222,21 @@ public static void countingSort(Integer array[], int n, int exp)
         // Cuenta la cantidad de ocurrencias de cada numero
         for (i = 0; i < n; i++){
             count[(array[i] / exp) % 10]++;
-
+            // (array[i] / exp) % 10 = Segun el numero, nos da la posicion a incrementar 
+            // Ejemplo: Si array[i] = 7
+            // 7/1  (Se divide por 1 porque es la primera pasada del ciclo)
+            // 7 % 10 es 7
+            // Entonces count[7] se incrementa en 1
         }
-        //System.out.println("Count:" + Arrays.toString(count));
+        System.out.println("Count:" + Arrays.toString(count));
  
-        // Reorganiza el arreglo count para determinar la posicion final 
+        // Organiza el arreglo count para determinar la posicion final 
         // de los digitos
         for (i = 1; i < 10; i++)
-            count[i] += count[i - 1];
+            count[i] = count[i] + count[i - 1];
+        // Puede verse como una sumatoria
  
-        //System.out.println("Count ordenado:" + Arrays.toString(count));
+        System.out.println("Count ordenado:" + Arrays.toString(count));
 
         // Construye en salida el arreglo que retorna el metodo
         for (i = n - 1; i >= 0; i--) {
