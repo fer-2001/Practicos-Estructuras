@@ -11,6 +11,7 @@ public class Main {
 
    public static void main(String[] args) {
       int k = 10000;
+   
       String s = "RadixSort"; 
       probadorDeAlgoritmnos(100,k,s);
       probadorDeAlgoritmnos(1000,k,s);
@@ -30,78 +31,61 @@ public class Main {
       probadorDeAlgoritmnos(1000,k,s);
       probadorDeAlgoritmnos(10000,k,s);
       probadorDeAlgoritmnos(100000,k,s);
-      probadorDeAlgoritmnos(1000000,k,s);
-      //probadorDeAlgoritmnos(10000000,k,s);
+      //probadorDeAlgoritmnos(1000000,k,s);
+      //probadorDeAlgoritmnos(10000000,k,s); 
 
    }
-
-   @SuppressWarnings("unchecked")
-    private static <E> E[] crearArreglo(int elementos) {
-        return (E[]) new Object[elementos];
-    }
 
    private static void probadorDeAlgoritmnos(int n, int k, String s){
          switch(s){
          case "MergeSort":
-            if(n <= 1000000){
                Integer[] arreglo1 = ArrayGenerator.generarArregloDeLongitud(0, k, n);
                System.out.println("Arreglo ordenado con MergeSort de " + n + " elementos y en un rango de 0 y " + k + " valores: ");
                long inicio = System.nanoTime();
                ArraySorter.mergeSort(arreglo1); 
                long fin = System.nanoTime();
-               System.out.println((fin - inicio) + " ns \n");
-            }
-            else{
-               Integer[] arreglo1 = ArrayGenerator.generarArregloDeLongitud(0, k, n);
-               System.out.println("Arreglo ordenado con MergeSort de " + n + " elementos y en un rango de 0 y " + k + " valores: ");
-               long inicio = System.currentTimeMillis();
-               ArraySorter.mergeSort(arreglo1); 
-               long fin = System.currentTimeMillis();
-               double tiempo = (double) ((fin - inicio)/1000);
-               System.out.println(tiempo +" segundos\n");
-            }
+               if(n <= 1000000){
+                  System.out.println((fin - inicio) + " ns \n");
+               }
+               else{
+                  System.out.println((fin - inicio)/1000000000 + " segundos \n");
+               }
          break;
+         
          case "RadixSort":
-            if(n <= 1000000){
-               Integer[] arreglo1 = ArrayGenerator.generarArregloDeLongitud(0, k, n);
-               System.out.println("Arreglo ordenado con RadixSort de " + n + " elementos y en un rango de 0 y " + k + " valores: ");
-               long inicio = System.nanoTime();
-               ArraySorter.radixSort(arreglo1); 
-               long fin = System.nanoTime();
-               System.out.println((fin - inicio) + " ns \n");
-            }
-            else{
-               Integer[] arreglo1 = ArrayGenerator.generarArregloDeLongitud(0, k, n);
-               System.out.println("Arreglo ordenado con RadixSort de " + n + " elementos y en un rango de 0 y " + k + " valores: ");
-               long inicio = System.currentTimeMillis();
-               ArraySorter.radixSort(arreglo1); 
-               long fin = System.currentTimeMillis();
-               double tiempo = (double) ((fin - inicio)/1000);
-               System.out.println(tiempo +" segundos\n");
-            }
+               Integer[] arreglo2 = ArrayGenerator.generarArregloDeLongitud(0, k, n);
+               System.out.println("Arreglo ordenado con radixSort de " + n + " elementos y en un rango de 0 y " + k + " valores: ");
+               long inicio2 = System.nanoTime();
+               ArraySorter.radixSort(arreglo2); 
+               long fin2 = System.nanoTime();
+               if(n <= 1000000){
+                  System.out.println((fin2 - inicio2) + " ns \n");
+               }
+               else{
+                  System.out.println((fin2 - inicio2)/1000000000 + " segundos \n");
+               }            
          break;
          case "bubbleSort":
-            if(n < 100000){
-               Integer[] arreglo1 = ArrayGenerator.generarArregloDeLongitud(0, k, n);
+               Integer[] arreglo3 = ArrayGenerator.generarArregloDeLongitud(0, k, n);
                System.out.println("Arreglo ordenado con bubbleSort de " + n + " elementos y en un rango de 0 y " + k + " valores: ");
-               long inicio = System.nanoTime();
-               ArraySorter.bubbleSort(arreglo1); 
-               long fin = System.nanoTime();
-               System.out.println((fin - inicio) + " ns \n");
-            }
-            else{
-               Integer[] arreglo1 = ArrayGenerator.generarArregloDeLongitud(0, k, n);
-               System.out.println("Arreglo ordenado con bubbleSort de " + n + " elementos y en un rango de 0 y " + k + " valores: ");
-               long inicio = System.currentTimeMillis();
-               ArraySorter.bubbleSort(arreglo1); 
-               long fin = System.currentTimeMillis();
-               double tiempo = (double) ((fin - inicio)/1000);
-               System.out.println(tiempo +" segundos\n");
-            }
+               long inicio3 = System.nanoTime();
+               ArraySorter.bubbleSort(arreglo3); 
+               long fin3 = System.nanoTime();
+               if(n <= 1000000){
+                  System.out.println((fin3 - inicio3) + " ns \n");
+               }
+               else{
+                  System.out.println((fin3 - inicio3)/1000000000 + " segundos \n");
+               }
          break;
 
       
    }
 }
+
+   @SuppressWarnings("unchecked")
+    private static <E> E[] crearArreglo(int elementos) {
+        return (E[]) new Object[elementos];
+    }
 
 }
