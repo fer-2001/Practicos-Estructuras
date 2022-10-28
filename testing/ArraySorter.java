@@ -83,29 +83,6 @@ public class ArraySorter {
       }
    }
 
-   /**
-   * Ordena un arreglo, <i>in place</i>, usando el orden natural de sus elementos utilizando Quick Sort.
-   * @param <T> el tipo de los elementos del arreglo, los cuales deben ser comparables entre sí
-   * @param array el arreglo de los elementos a ordenar, no puede ser {@code null}
-   */
-   public static <T extends Comparable<? super T>> void quickSort(T[] array) {
-      throw new UnsupportedOperationException("TODO: implementar");
-
-   }
-
-   /*
-   * Ordena un arreglo, usando el orden natural de sus elementos utilizando Merge Sort.
-   * @param <T> el tipo de los elementos del arreglo, los cuales deben ser comparables entre sí
-   * @param array el arreglo de los elementos a ordenar, no puede ser {@code null}
-   
-   public static <T extends Comparable<? super T>> void mergeSort(T[] array) {
-      if(array== null) 
-         throw new IllegalArgumentException("array is null, can't sort");
-   
-
-
-   }*/
-
    
    public  static Integer[] radixSort(Integer[] entrada)
    {
@@ -145,46 +122,12 @@ public class ArraySorter {
       }
       return entrada; 
    }
-
-
-   /* (non-Javadoc)
-   * Este método intercambia dos posiciones de un arreglo.
-   */ 
-   private static <T extends Comparable<? super T>> void swap(T[] array, int i, int j) {
-      T temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
-   }
-
-   /* (non-Javadoc)
-   * Este método retorna el indice del elemento mas grande. 
+   /**
+   * Ordena un arreglo, usando el orden natural de sus elementos utilizando Merge Sort.
+   * @param <T> el tipo de los elementos del arreglo, los cuales deben ser comparables entre sí
+   * @param array el arreglo de los elementos a ordenar, no puede ser {@code null}
    */
-   private static <T extends Comparable<? super T>> int indexOfLargest(T[] array, int n){
-      int largest = 0;
-      for (int i = 1; i < n; i++){
-         if (array[i].compareTo(array[largest]) > 0){
-            largest = i;
-         }
-      }  
-      return largest;
-   }
-
-   public static int countDigit(Integer num)
-   {
-
-     if (num == 0) return num ++ ; 
-     return (int)(Math.log10(num)+1) ;  
-   }
-
-   private static int digitAt(Integer num, int i){
-      int output;
-      Integer a=10;
-      output = (int) (num/Math.pow(a,i)) % a;
-      return output;
-   }
-
-
-   public static void mergeSort(Integer[] inputArray) {
+   public static <T extends Comparable<? super T>> void mergeSort(T[] inputArray) {
        int inputLength = inputArray.length;
        // Caso base para cortar la recursion (tenemos un unico nodo en este punto)
        if (inputLength < 2) {
@@ -192,8 +135,8 @@ public class ArraySorter {
        }
        
        int midIndex = inputLength / 2;
-       Integer[] leftHalf = new Integer[midIndex];
-       Integer[] rightHalf = new Integer[inputLength - midIndex];
+       T[] leftHalf =  (T []) new Comparable[midIndex];
+       T[] rightHalf = (T []) new Comparable[inputLength - midIndex];
        
        for (int i = 0; i < midIndex; i++) {
          leftHalf[i] = inputArray[i];
@@ -208,14 +151,14 @@ public class ArraySorter {
        merge(inputArray, leftHalf, rightHalf);
     }
 
-  private static void merge (Integer[] inputArray, Integer[] leftHalf, Integer[] rightHalf) {
+   public static <T extends Comparable<? super T>> void merge(T[] inputArray, T[] leftHalf, T[] rightHalf) {
     int leftSize = leftHalf.length;
     int rightSize = rightHalf.length;
     
     int i = 0, j = 0, k = 0;
     
     while (i < leftSize && j < rightSize) {
-      if (leftHalf[i] <= rightHalf[j]) {
+      if (leftHalf[i].compareTo(rightHalf[j]) < 0) {
         inputArray[k] = leftHalf[i];
         i++;
       }
@@ -240,6 +183,113 @@ public class ArraySorter {
     
   }
 
+   /* (non-Javadoc)
+   * Este método retorna el indice del elemento mas grande. 
+   */
+   private static <T extends Comparable<? super T>> int indexOfLargest(T[] array, int n){
+      int largest = 0;
+      for (int i = 1; i < n; i++){
+         if (array[i].compareTo(array[largest]) > 0){
+            largest = i;
+         }
+      }  
+      return largest;
+   }
 
+   private static int countDigit(Integer num)
+   {
+
+     if (num == 0) return num ++ ; 
+     return (int)(Math.log10(num)+1) ;  
+   }
+
+   private static int digitAt(Integer num, int i){
+      int output;
+      Integer a=10;
+      output = (int) (num/Math.pow(a,i)) % a;
+      return output;
+   }
+
+   /* (non-Javadoc)
+   * Este método intercambia dos posiciones de un arreglo.
+   */ 
+   private static <T extends Comparable<? super T>> void swap(T[] array, int i, int j) {
+      T temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+   }
+
+   /**
+   * Ordena un arreglo, <i>in place</i>, usando el orden natural de sus elementos utilizando Quick Sort.
+   * @param <T> el tipo de los elementos del arreglo, los cuales deben ser comparables entre sí
+   * @param array el arreglo de los elementos a ordenar, no puede ser {@code null}
+   */
+   public static <T extends Comparable<? super T>> void quickSort(T[] array) {
+      if (array == null) throw new IllegalArgumentException("array is null, can't sort");
+         quickSort(array, 0, array.length - 1);
+   }
+
+    /**
+     *
+     * @param array
+     * @param lowIndex
+     * @param highIndex
+     */
+  private static <T extends Comparable<? super T>> void quickSort(T[] array, int lowIndex, int highIndex) {
+       if (lowIndex >= highIndex) {
+         return;
+       }
+      // Genera una posicion aleatoria para el pivot
+       int pivotIndex = new Random().nextInt(highIndex - lowIndex) + lowIndex;
+       T pivot = array[pivotIndex];
+       // Coloca el elemento pivot al final del arreglo (SIEMPRE) y luego realiza los intercambios
+       swap(array, pivotIndex, highIndex);
+       
+       // Devuelve la posicion donde quedo el elemento ordenado(posicion final de ese elemento seguro)
+       int leftPointer = partition(array, lowIndex, highIndex, pivot);
+
+       // Valores menores al pivot elegido (del 0 a la posicion del leftPointer - 1) (Ordena la izq del pivot)
+       quickSort(array, lowIndex, leftPointer - 1);
+       // Valores mayores al pivot elegido (Del left pointer hasta el final del arreglo) (Ordena la derecha del pivot)
+       quickSort(array, leftPointer + 1, highIndex);
+
+  }
+
+    /*
+        (Non-javaDoc)
+        Metodo privado que utiliza el metodo quicSort para realizar el ordenamiento por 
+        medio de particiones.
+     */
+
+  private static <T extends Comparable<? super T>> int partition(T[] array, int lowIndex, int highIndex, T pivot) {
+       int leftPointer = lowIndex;
+       int rightPointer = highIndex - 1;
+
+       while (leftPointer < rightPointer) {
+
+         // Walk from the left until we find a number greater than the pivot, or hit the right pointer.
+         while (array[leftPointer].compareTo(pivot) < 0 && leftPointer < rightPointer){
+         
+           leftPointer++;
+         }
+
+         // Walk from the right until we find a number less than the pivot, or hit the left pointer.
+         while (array[leftPointer].compareTo(pivot) > 0 && leftPointer < rightPointer) {
+           rightPointer--;
+         }
+
+         swap(array, leftPointer, rightPointer);
+       }
+       
+      // En este punto leftPointer y rightPointer son lo mismo, se elige leftPointer por simplicidad para el resto de Op.
+       if(array[leftPointer].compareTo(array[highIndex]) > 0){
+         swap(array, leftPointer, highIndex);
+       }
+       else {
+         leftPointer = highIndex;
+       }
+       
+       return leftPointer;
+  }
 
 }

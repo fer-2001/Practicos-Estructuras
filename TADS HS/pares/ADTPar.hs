@@ -2,7 +2,7 @@ module ADTpar where
 import ParTAD
 
 data ParInt = Integer :/ Integer
-
+ 
 instance Show ParInt where
     show (p :/ q) = "(" ++ (show p) ++ "," ++ (show q) ++ ")"
 
