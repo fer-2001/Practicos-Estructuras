@@ -37,4 +37,4 @@ full Nil = True
 full (N hi r hd) = (full hi) && (full hd) && (alt hi == alt hd)
 
 
--- (N (N (N Nil 1 Nil) 2 (N Nil 3 Nil)) 4 (N (N Nil 6 Nil) 5 (N Nil 7 Nil)))
+-- (N (N (N (N Nil 'A' Nil) 'B' (N Nil 'C' Nil)) 'D' (N Nil 'F' (N Nil 'G' Nil) )) 'H' (N (N (N Nil 'I' Nil) 'J' (N Nil 'K' Nil)) 'L' (N Nil 'N' (N Nil 'M' Nil))))
