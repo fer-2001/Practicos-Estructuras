@@ -30,7 +30,9 @@ public class Avl<T> implements Diccionario<T> {
      * @param comparador define una forma de comparar los valores insertados en el arbol.
      */
     public Avl(Comparator<? super T> comparador) {
-        throw new UnsupportedOperationException("TODO: implementar");
+        //throw new UnsupportedOperationException("TODO: implementar");
+        this.comparador = comparador;
+        this.raiz = null;
     }
 
     /**
@@ -40,7 +42,8 @@ public class Avl<T> implements Diccionario<T> {
      * @param valor de la raiz del nuevo arbol si no es null.
      */
     public Avl(Comparator<? super T> comparador, T valor) {
-        throw new UnsupportedOperationException("TODO: implementar");
+        this.comparador = comparador;
+        raiz.setValor(valor);
     }
 
     /**
@@ -49,6 +52,14 @@ public class Avl<T> implements Diccionario<T> {
     @Override
     public void insertar( T elem ) {
         throw new UnsupportedOperationException("TODO: implementar");
+        if(this.getIzquierdo() == null){
+            NodoBinario<T> nodo1 = new NodoBinario(elem);
+            this.setIzquierdo(nodo1);
+        }
+        if(this.getDerecho() == null){
+            NodoBinario<T> nodo2 = new NodoBinario(elem);
+            this.setDerecho(nodo2);
+        }        
     }
 
 
@@ -71,13 +82,13 @@ public class Avl<T> implements Diccionario<T> {
     /**{@inheritDoc}*/
     @Override
     public void vaciar() {
-        throw new UnsupportedOperationException("TODO: implementar");
+        raiz = null;
     }
 
     /**{@inheritDoc}*/
     @Override
     public T raiz() {
-        throw new UnsupportedOperationException("TODO: implementar");
+        return raiz.get(valor);
     }
 
     /**{@inheritDoc}*/
@@ -107,7 +118,7 @@ public class Avl<T> implements Diccionario<T> {
     /**{@inheritDoc}*/
     @Override
     public boolean esVacio() {
-        throw new UnsupportedOperationException("TODO: implementar");
+        return raiz == null;
     }
 
     /**{@inheritDoc}*/

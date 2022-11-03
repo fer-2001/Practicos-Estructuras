@@ -11,15 +11,24 @@ public class NodoBinario<T>  {
 
 
     NodoBinario(T valor, NodoBinario<T> izquierdo, NodoBinario<T> derecho) {
-       throw new UnsupportedOperationException("TODO: implementar");
+        this.valor = valor;
+        this.izquierdo = izquierdo;
+        this.derecho = derecho;
+        altura = 1;
     }
 
     public NodoBinario(){
-        throw new UnsupportedOperationException("TODO: implementar");
+        this.valor = null;
+        this.izquierdo = null;
+        this.derecho = null;
+        altura = 0; 
     }
 
     public NodoBinario(T valor){
-        throw new UnsupportedOperationException("TODO: implementar");
+        this.valor = valor;
+        this.izquierdo = null;
+        this.derecho = null;
+        altura = 0;         
     }
 
 
@@ -36,7 +45,7 @@ public class NodoBinario<T>  {
     }
 
     void setIzquierdo(NodoBinario<T> nuevoIzquierdo) {
-        throw new UnsupportedOperationException("TODO: implementar");
+        izquierdo = nuevoIzquierdo;
     }
 
     NodoBinario<T> getDerecho() {
@@ -44,7 +53,7 @@ public class NodoBinario<T>  {
     }
 
     void setDerecho(NodoBinario<T> nuevoDerecho) {
-        throw new UnsupportedOperationException("TODO: implementar");
+        derecho = nuevoDerecho;
     }
 
     public int getAltura() {
