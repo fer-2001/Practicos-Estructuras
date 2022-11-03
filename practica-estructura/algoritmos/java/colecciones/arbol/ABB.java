@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.LinkedList;
 
 /**
- * Árbol binario de busqueda (ABB), es una implementación de {@code Diccionario} mediante nodos encadenados que preserva las propiedades de Diccionario.
+ * Arbol binario de busqueda (ABB), es una implementación de {@code Diccionario} mediante nodos encadenados que preserva las propiedades de Diccionario.
  * @param <T> Tipo del valor asociado a los nodos del árbol, debe ser posible definir un orden total para los mismos.
  * @see NodoBinario
  */
@@ -33,7 +33,8 @@ public class ABB<T> implements Diccionario<T> {
      * @param valor de la raiz del nuevo arbol si no es null.
      */
     public ABB(Comparator<? super T> comparador, T valor) {
-        throw new UnsupportedOperationException("TODO: implementar");
+       this.comparador = comparador;
+       raiz.setValor(valor);
     }
 
 
@@ -42,7 +43,35 @@ public class ABB<T> implements Diccionario<T> {
      */
     @Override
     public void insertar(T elem) {
-        throw new UnsupportedOperationException("TODO: implementar");
+        // -1 < 
+        // 0 ==
+       // 1 >
+        boolean control = true;
+        if(comparador == null){
+            throw new UnsupportedOperationException("comparador es null");
+        }
+
+
+        while(control){
+        if(raiz.getIzquierdo() == null && (comparador.compare(raiz.getValor(), elem) == -1)){
+            NodoBinario<T> nodo1 = new NodoBinario(elem);
+            raiz.setIzquierdo(nodo1);
+            control = false;
+        }
+        if(raiz.getDerecho() == null && (comparador.compare(raiz.getValor(), elem) == 1)){
+            NodoBinario<T> nodo1 = new NodoBinario(elem);
+            raiz.setDerecho(nodo1);
+            control = false;
+        }
+        if(raiz.getIzquierdo() != null && (comparador.compare(raiz.getValor(), elem) == -1)){
+            raiz = raiz.getIzquierdo();
+        }
+        if(raiz.getDerecho() != null  && (comparador.compare(raiz.getValor(), elem) == 1)){
+            raiz = raiz.getDerecho();
+        }
+        
+        }
+
     }
 
 
@@ -206,6 +235,12 @@ public class ABB<T> implements Diccionario<T> {
      */
     private List<T> aListaInOrder(NodoBinario<T> raiz, List<T> elementos) {
         throw new UnsupportedOperationException("TODO: implementar");
+        T raiz2 = raiz.getValor();
+        raiz = raiz.getIzquierdo();
+        
+
+
+
     }
 
     /* (non-Javadoc)

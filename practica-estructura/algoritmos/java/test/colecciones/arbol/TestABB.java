@@ -87,3 +87,5 @@ public class TestABB {
     }
 
 }
+// Para compilar: desde java >javac -cp  :libs/junit-4.12.jar : libs/org.han(TAB) :test test/colecciones/arbol/TestABB.java
+// Para correr java -cp :libs/junit-4.12.jar : libs/org.han(TAB) :test org:junit.runner.JunitCore test/colecciones/arbol/TestABB

@@ -51,7 +51,7 @@ public class Avl<T> implements Diccionario<T> {
      */
     @Override
     public void insertar( T elem ) {
-        throw new UnsupportedOperationException("TODO: implementar");
+    //    throw new UnsupportedOperationException("TODO: implementar");
         if(this.getIzquierdo() == null){
             NodoBinario<T> nodo1 = new NodoBinario(elem);
             this.setIzquierdo(nodo1);
