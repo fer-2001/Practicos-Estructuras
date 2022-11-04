@@ -24,7 +24,7 @@ public class ABB<T> implements Diccionario<T> {
      */
     public ABB(Comparator<? super T> comparador) {
         this.comparador = comparador;
-        this.raiz = null;
+        raiz = new NodoBinario<T>();
     }
 
     /**
@@ -34,7 +34,8 @@ public class ABB<T> implements Diccionario<T> {
      */
     public ABB(Comparator<? super T> comparador, T valor) {
        this.comparador = comparador;
-       raiz.setValor(valor);
+       raiz = new NodoBinario<T>(valor);
+       //raiz.setValor(valor);
     }
 
 
@@ -51,23 +52,30 @@ public class ABB<T> implements Diccionario<T> {
             throw new UnsupportedOperationException("comparador es null");
         }
 
+        if(raiz.getValor() == null){
+            raiz.setValor(elem);
+            control = false;
+        }
 
+        NodoBinario<T> aux = new NodoBinario<T>();
+        aux = raiz;
         while(control){
-        if(raiz.getIzquierdo() == null && (comparador.compare(raiz.getValor(), elem) == -1)){
-            NodoBinario<T> nodo1 = new NodoBinario(elem);
-            raiz.setIzquierdo(nodo1);
+
+        if(aux.getIzquierdo() == null && (comparador.compare(aux.getValor(), elem) > 0)){
+            NodoBinario<T> nodo1 = new NodoBinario<T>(elem);
+            aux.setIzquierdo(nodo1);
             control = false;
         }
-        if(raiz.getDerecho() == null && (comparador.compare(raiz.getValor(), elem) == 1)){
-            NodoBinario<T> nodo1 = new NodoBinario(elem);
-            raiz.setDerecho(nodo1);
+        if(aux.getDerecho() == null && (comparador.compare(aux.getValor(), elem) < 0)){
+            NodoBinario<T> nodo1 = new NodoBinario<T>(elem);
+            aux.setDerecho(nodo1);
             control = false;
         }
-        if(raiz.getIzquierdo() != null && (comparador.compare(raiz.getValor(), elem) == -1)){
-            raiz = raiz.getIzquierdo();
+        if(aux.getIzquierdo() != null && (comparador.compare(aux.getValor(), elem) > 0)){
+            aux = aux.getIzquierdo();
         }
-        if(raiz.getDerecho() != null  && (comparador.compare(raiz.getValor(), elem) == 1)){
-            raiz = raiz.getDerecho();
+        if(aux.getDerecho() != null  && (comparador.compare(aux.getValor(), elem) < 0)){
+            aux = aux.getDerecho();
         }
         
         }
@@ -234,10 +242,29 @@ public class ABB<T> implements Diccionario<T> {
      * Si bien el prefil está pensando para una implementación recursiva, puede probar con una implementación iterativa.
      */
     private List<T> aListaInOrder(NodoBinario<T> raiz, List<T> elementos) {
-        throw new UnsupportedOperationException("TODO: implementar");
-        T raiz2 = raiz.getValor();
-        raiz = raiz.getIzquierdo();
-        
+        //throw new UnsupportedOperationException("TODO: implementar");
+        //T raiz2 = raiz.getValor();
+        //raiz = raiz.getIzquierdo();
+        NodoBinario<T> aux = new NodoBinario<T>();
+        aux = raiz;
+        if(aux == null){
+            return elementos;
+        }
+        //if( (raiz.getIzquierdo()) == null && (raiz.getDerecho())== null){
+        //    return elementos;
+        //}
+        if(aux.getIzquierdo() != null){
+            elementos.add((aux.getIzquierdo()).getValor());
+        }
+        aListaInOrder(aux.getIzquierdo(), elementos);
+        if(aux.getDerecho() != null){
+            elementos.add((aux.getDerecho()).getValor());
+        }
+        //elementos.add(aux.getValor());
+        aListaInOrder(aux.getDerecho(), elementos);
+
+
+        return elementos;
 
 
 
