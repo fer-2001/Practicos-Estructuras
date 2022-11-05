@@ -243,42 +243,47 @@ public class ABB<T> implements Diccionario<T> {
      */
     public T mayorValor(){
 
+        boolean control = true;
         if(comparador == null){
             throw new UnsupportedOperationException("comparador es null");
         }
 
-        if(raiz == null){
-            throw new NullPointerException("Arbol vacio!");
-        }
-
-        T mayor = raiz.getValor();
         NodoBinario<T> aux = new NodoBinario<T>();
         aux = raiz;
-        boolean control = true;
-
         while(control){
-            if((aux.getDerecho() == null) && (aux.getIzquierdo() == null)){
+            if( (comparador.compare( aux.getValor(), (aux.getDerecho()).getValor()) ) < 0){
+                aux = aux.getDerecho();
+            }
+            if(aux.getDerecho() == null){
                 control = false;
             }
-            if(comparador.compare(mayor, aux.getValor()) > 0 && aux.getDerecho() != null){
-                aux = aux.getDerecho();
-            }
-            if( comparador.compare(mayor, aux.getValor()) < 0 && aux.getDerecho() != null){
-                mayor = aux.getValor();
-                aux = aux.getDerecho();
-            }
-            
         }
-        return mayor;
-
+        return aux.getValor();
     }
+
+
 
     /**
      * {@inheritDoc}
      */
     @Override
     public T menorValor() {
-        throw new UnsupportedOperationException("TODO: implementar");
+        boolean control = true;
+        if(comparador == null){
+            throw new UnsupportedOperationException("comparador es null");
+        }
+        
+        NodoBinario<T> aux = new NodoBinario<T>();
+        aux = raiz;
+        while(control){
+            if( (comparador.compare( aux.getValor(), (aux.getIzquierdo()).getValor()) ) > 0){
+                aux = aux.getIzquierdo();
+            }
+            if(aux.getIzquierdo() == null){
+                control = false;
+            }
+        }
+        return aux.getValor();
     }
 
     /**

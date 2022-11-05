@@ -16,7 +16,9 @@ public class Main{
 		arbol.insertar(4);
 		arbol.insertar(2);
 		arbol.insertar(8);
+		arbol.insertar(0);
 		System.out.println("Mayor elemento: " + (arbol.mayorValor()));
+		System.out.println("Menor elemento: " + (arbol.menorValor()));
 		System.out.println("El elemento pertenece? " + arbol.pertenece(8));
 		//arbol.borrar(4);
 		//ABB<Integer> arbol2 = arbol.subArbolIzquierdo();
