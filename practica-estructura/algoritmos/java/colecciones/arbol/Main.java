@@ -16,11 +16,12 @@ public class Main{
 		arbol.insertar(4);
 		arbol.insertar(2);
 		arbol.insertar(8);
-		System.out.println("El elemento pertenece? " + arbol.pertenece(5));
+		System.out.println("Mayor elemento: " + (arbol.mayorValor()));
+		System.out.println("El elemento pertenece? " + arbol.pertenece(8));
 		//arbol.borrar(4);
 		//ABB<Integer> arbol2 = arbol.subArbolIzquierdo();
 		System.out.println("Arbol en preOrder: " + arbol.aLista());
-		System.out.println("Arbol en preOrder: " + (arbol.subArbolDerecho()).aLista());
+		//System.out.println("Arbol en preOrder: " + (arbol.subArbolDerecho()).aLista());
 
 	}
 

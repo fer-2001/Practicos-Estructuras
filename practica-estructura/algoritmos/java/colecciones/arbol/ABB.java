@@ -210,6 +210,16 @@ public class ABB<T> implements Diccionario<T> {
     @Override
     public int elementos() {
         throw new UnsupportedOperationException("TODO: implementar");
+        /*
+        if(raiz == null){
+            return 0;
+        }
+
+        NodoBinario<T> aux =  new NodoBinario<>();
+        aux = raiz;
+
+       // if()
+        */
     }
 
     /**
@@ -232,7 +242,35 @@ public class ABB<T> implements Diccionario<T> {
      * {@inheritDoc}
      */
     public T mayorValor(){
-        throw new UnsupportedOperationException("TODO: implementar");
+
+        if(comparador == null){
+            throw new UnsupportedOperationException("comparador es null");
+        }
+
+        if(raiz == null){
+            throw new NullPointerException("Arbol vacio!");
+        }
+
+        T mayor = raiz.getValor();
+        NodoBinario<T> aux = new NodoBinario<T>();
+        aux = raiz;
+        boolean control = true;
+
+        while(control){
+            if((aux.getDerecho() == null) && (aux.getIzquierdo() == null)){
+                control = false;
+            }
+            if(comparador.compare(mayor, aux.getValor()) > 0 && aux.getDerecho() != null){
+                aux = aux.getDerecho();
+            }
+            if( comparador.compare(mayor, aux.getValor()) < 0 && aux.getDerecho() != null){
+                mayor = aux.getValor();
+                aux = aux.getDerecho();
+            }
+            
+        }
+        return mayor;
+
     }
 
     /**
