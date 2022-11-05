@@ -48,6 +48,7 @@ public class ABB<T> implements Diccionario<T> {
      */
     @Override
     public void insertar(T elem) {
+        // Compare se puede ver como la resta del primero con el segundo (ob1 - obj2)
         // -1 < 
         // 0 ==
        // 1 >
@@ -63,7 +64,7 @@ public class ABB<T> implements Diccionario<T> {
             control = false;
         }
 
-//        if (pertenece(elem)){
+//        if (pertenece(elem) && !esVacio()){
  //           control = false;
  //       }
 
@@ -142,26 +143,33 @@ public class ABB<T> implements Diccionario<T> {
         }
 
         aux = raiz;
-        if(!pertenece(elem)){
-            control = false;
+        //if(!pertenece(elem)){
+        //    control = false;
             //break;
-        }
+        //}
 
         while(control){
-            if(comparador.compare(aux.getValor(), elem) < 0){
+            if((comparador.compare((aux.getDerecho()).getValor(), elem)) < 0){
                 aux = aux.getDerecho();
             }
-            if(comparador.compare(aux.getValor(), elem) > 0){
+            if((comparador.compare((aux.getIzquierdo()).getValor(), elem)) > 0){
                 aux = aux.getIzquierdo();
             }
-            if(comparador.compare(aux.getValor(), elem) == 0){
+
+            if((comparador.compare((aux.getDerecho()).getValor(), elem)) == 0){
+                aux.setDerecho(null);
                 control = false;
-            }            
+            }
+            if((comparador.compare((aux.getIzquierdo()).getValor(), elem)) == 0){
+                aux.setIzquierdo(null);
+                control = false;
+            }       
         }
 
-        if(aux.getDerecho() == null && aux.getIzquierdo() == null){
-            aux = null;
-        }
+        //if(aux.getDerecho() == null && aux.getIzquierdo() == null){
+           // System.out.println("Valor a eliminar: " + aux.getValor());
+           // aux = null;
+        //}
 
     }
 
@@ -291,7 +299,30 @@ public class ABB<T> implements Diccionario<T> {
      */
     @Override
     public T sucesor(T elem) {
-        throw new UnsupportedOperationException("TODO: implementar");
+
+        boolean control = true;
+        NodoBinario<T> aux =  new NodoBinario<T>();
+        if(comparador == null){
+            throw new UnsupportedOperationException("Comparador es null");
+        }
+
+        aux = raiz;
+
+        while(control){
+            if((comparador.compare(aux.getValor(), elem)) < 0){
+                aux = aux.getDerecho();
+            }
+            if((comparador.compare(aux.getValor(), elem)) > 0){
+                aux = aux.getIzquierdo();
+            }
+
+            if((comparador.compare(aux.getValor(), elem)) == 0){
+                aux = aux.getDerecho();
+                control = false;
+            }
+                
+        }
+        return aux.getValor();
     }
 
     /**
@@ -315,7 +346,7 @@ public class ABB<T> implements Diccionario<T> {
      */
     @Override
     public String toString() {
-        throw new UnsupportedOperationException("TODO: implementar");
+       return "" + aLista();
     }
 
     /**

@@ -22,7 +22,8 @@ public class Main{
 		System.out.println("El elemento pertenece? " + arbol.pertenece(8));
 		//arbol.borrar(4);
 		//ABB<Integer> arbol2 = arbol.subArbolIzquierdo();
-		System.out.println("Arbol en preOrder: " + arbol.aLista());
+		System.out.println("Sucesor de 6: " + arbol.sucesor(6));
+		System.out.println("Arbol en preOrder: " + arbol);
 		//System.out.println("Arbol en preOrder: " + (arbol.subArbolDerecho()).aLista());
 
 	}
