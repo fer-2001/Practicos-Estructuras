@@ -3,7 +3,6 @@ package colecciones.arbol;
 import java.util.Comparator;
 import java.util.List;
 import java.util.LinkedList;
-//import java.lang.math.*;
 /**
  * Arbol binario de busqueda (ABB), es una implementación de {@code Diccionario} mediante nodos encadenados que preserva las propiedades de Diccionario.
  * @param <T> Tipo del valor asociado a los nodos del árbol, debe ser posible definir un orden total para los mismos.
@@ -217,17 +216,25 @@ public class ABB<T> implements Diccionario<T> {
      */
     @Override
     public int elementos() {
-        throw new UnsupportedOperationException("TODO: implementar");
-        /*
+        return elementos(raiz); 
+    }
+    // Metodo privado para calcular la cantidad de elementos de un arbol (Recursiva en aumento)
+    private int elementos(NodoBinario<T> raiz){
+        int elementos = 0;
+
+        NodoBinario<T> aux = new NodoBinario<T>();
+        NodoBinario<T> aux2 = new NodoBinario<T>();
+
         if(raiz == null){
             return 0;
         }
 
-        NodoBinario<T> aux =  new NodoBinario<>();
-        aux = raiz;
+        aux = raiz.getIzquierdo();
+        aux2 = raiz.getDerecho();
 
-       // if()
-        */
+        elementos = 1 + elementos + elementos(aux) + elementos(aux2);
+
+        return elementos;
     }
 
     /**
@@ -235,7 +242,27 @@ public class ABB<T> implements Diccionario<T> {
      */
     @Override
     public int altura() {
-        throw new UnsupportedOperationException("TODO: implementar");
+        return altura(raiz);
+    }
+
+    // Metodo privado para calcular la altura de un arbol (Recursiva en aumento)
+    private int altura(NodoBinario<T> raiz){
+        int altura = 0;
+        int altura2 = 0;
+        NodoBinario<T> aux = new NodoBinario<T>();
+        NodoBinario<T> aux2 = new NodoBinario<T>();
+
+        if(raiz == null){
+            return 0;
+        }
+
+        aux = raiz.getIzquierdo();
+        aux2 = raiz.getDerecho();
+
+        altura = 1 + altura + altura(aux);
+        altura2 = 1 + altura2 + altura(aux2);
+
+        return Math.max(altura,altura2);
     }
 
     /**
