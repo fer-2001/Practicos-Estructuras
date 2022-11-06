@@ -34,7 +34,7 @@ public class Main{
 		arbol.insertar(24);
 	
 		*/
-    /*
+    
 		arbol.insertar(340);
 		arbol.insertar(346);
 		arbol.insertar(151);
@@ -56,9 +56,9 @@ public class Main{
 		arbol.insertar(331);
 		arbol.insertar(308);
 		arbol.insertar(322);
-	*/
-		
 	
+		
+	/*
 		arbol.insertar(50);
 		arbol.insertar(51);
 		arbol.insertar(52);
@@ -75,7 +75,7 @@ public class Main{
 		arbol.insertar(45);
 		arbol.insertar(44);
 		arbol.insertar(43);
-	
+	*/
 
 
 		System.out.println("Mayor elemento: " + (arbol.mayorValor()));
@@ -83,7 +83,9 @@ public class Main{
 		//System.out.println("El elemento pertenece? " + arbol.pertenece(8));
 		//arbol.borrar(4);
 		//ABB<Integer> arbol2 = arbol.subArbolIzquierdo();
-		//System.out.println("Sucesor de 153: " + arbol.sucesor(153));
+		System.out.println("Sucesor de 153: " + arbol.sucesor(153));
+		System.out.println("predecesor de 153: " + arbol.predecesor(153));
+
 		System.out.println("Arbol en preOrder: " + arbol);
 		System.out.println("Altura del arbol: " + arbol.altura());
 		System.out.println("Cantidad de elementos del arbol: " + arbol.elementos());

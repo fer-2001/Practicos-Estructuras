@@ -47,7 +47,7 @@ public class ABB<T> implements Diccionario<T> {
      */
     @Override
     public void insertar(T elem) {
-        // Compare se puede ver como la resta del primero con el segundo (ob1 - obj2)
+        // "Compare" se puede ver como la resta del primero con el segundo (ob1 - obj2)
         // -1 < 
         // 0 ==
        // 1 >
@@ -62,10 +62,6 @@ public class ABB<T> implements Diccionario<T> {
             raiz.setValor(elem);
             control = false;
         }
-
-//        if (pertenece(elem) && !esVacio()){
- //           control = false;
- //       }
 
         NodoBinario<T> aux = new NodoBinario<T>();
         aux = raiz;
@@ -142,10 +138,6 @@ public class ABB<T> implements Diccionario<T> {
         }
 
         aux = raiz;
-        //if(!pertenece(elem)){
-        //    control = false;
-            //break;
-        //}
 
         while(control){
             if((comparador.compare((aux.getDerecho()).getValor(), elem)) < 0){
@@ -277,7 +269,7 @@ public class ABB<T> implements Diccionario<T> {
      * {@inheritDoc}
      */
     public T mayorValor(){
-
+        // Por la logica de los ABB's, el elemento de más a la derecha es el mayor elemento del arbol
         boolean control = true;
         if(comparador == null){
             throw new UnsupportedOperationException("comparador es null");
@@ -303,6 +295,7 @@ public class ABB<T> implements Diccionario<T> {
      */
     @Override
     public T menorValor() {
+        // Por la logica de los ABB's, el elemento de más a la izquierda es el menor elemento del arbol
         boolean control = true;
         if(comparador == null){
             throw new UnsupportedOperationException("comparador es null");
@@ -385,7 +378,55 @@ public class ABB<T> implements Diccionario<T> {
      */
     @Override
     public T predecesor(T elem) {
-        throw new UnsupportedOperationException("TODO: implementar");
+
+        boolean control = true;
+        NodoBinario<T> aux =  new NodoBinario<T>();
+        T aux2;
+        if(comparador == null){
+            throw new UnsupportedOperationException("Comparador es null");
+        }
+
+        T valorRaiz = raiz.getValor();
+        aux = raiz;
+
+        aux2 = menorValor(); // Poco eficiente
+        
+        // Ciclo para encontrar al elemento que se paso como parametro
+        while(control){
+            // Aux2 conserva el menor valor de forma parcial
+
+            if((comparador.compare(aux.getValor(), elem)) > 0){
+                aux = aux.getIzquierdo();
+            }
+
+            if(((comparador.compare(elem, aux.getValor())) > 0) && ((comparador.compare(aux2, aux.getValor())) < 0)){
+                aux2 = aux.getValor();
+            }
+
+            if((comparador.compare(aux.getValor(), elem)) < 0){
+                aux = aux.getDerecho();
+            }
+
+            if((comparador.compare(aux.getValor(), elem)) == 0){
+                control = false;
+            }            
+        }
+        // Se verifica si el nodo al que le calculamos el predecesor tiene hi
+        if(aux.getIzquierdo() != null){
+                aux = aux.getIzquierdo();
+        }
+        else{
+            // Caso donde el nodo al que le calculamos predecesor no tenga hi (el maximo está en aux2)
+            return aux2;
+        }
+
+        // Ciclo en el caso de que el nodo tenga hi, se busca el elemento de más a la derecha de dicho nodo
+        while(aux.getDerecho() != null){
+            aux = aux.getDerecho();
+        }
+
+        return aux.getValor();
+
     }
 
     /**
