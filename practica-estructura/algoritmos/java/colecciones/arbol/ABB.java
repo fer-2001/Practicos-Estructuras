@@ -3,7 +3,7 @@ package colecciones.arbol;
 import java.util.Comparator;
 import java.util.List;
 import java.util.LinkedList;
-
+//import java.lang.math.*;
 /**
  * Arbol binario de busqueda (ABB), es una implementación de {@code Diccionario} mediante nodos encadenados que preserva las propiedades de Diccionario.
  * @param <T> Tipo del valor asociado a los nodos del árbol, debe ser posible definir un orden total para los mismos.
@@ -302,26 +302,54 @@ public class ABB<T> implements Diccionario<T> {
 
         boolean control = true;
         NodoBinario<T> aux =  new NodoBinario<T>();
+        NodoBinario<T> aux2 =  new NodoBinario<T>();
+
         if(comparador == null){
             throw new UnsupportedOperationException("Comparador es null");
         }
 
+        T valorRaiz = raiz.getValor();
         aux = raiz;
 
+        // Ciclo para encontrar al elemento que se paso como parametro
         while(control){
-            if((comparador.compare(aux.getValor(), elem)) < 0){
-                aux = aux.getDerecho();
-            }
+            // Aux2 conserva el nodo anterior al cambio de referencias
+            aux2 = aux;
+            
             if((comparador.compare(aux.getValor(), elem)) > 0){
                 aux = aux.getIzquierdo();
             }
 
-            if((comparador.compare(aux.getValor(), elem)) == 0){
+            if((comparador.compare(aux.getValor(), elem)) < 0){
                 aux = aux.getDerecho();
-                control = false;
             }
-                
+
+
+            if((comparador.compare(aux.getValor(), elem)) == 0){
+                control = false;
+            }            
         }
+        // Se verifica si el nodo al que le calculamos el sucesor tiene hd
+        if(aux.getDerecho() != null){
+                aux = aux.getDerecho();
+        }
+        else{
+            // Caso donde el nodo al que le calculamos sucesor no tenga hd (el maximo está entre su nodo raiz y el nodo raiz de todo el arbol)
+            T mayor1 = raiz.getValor();
+            T mayor2 = aux2.getValor();
+            if( ((comparador.compare(mayor2, aux.getValor())) > 0) && (comparador.compare(mayor1, mayor2)) > 0){
+                return mayor2;
+            }
+            else{
+                return mayor1;
+            }
+        }
+
+        // Ciclo en el caso de que el nodo tenga hd, se busca el elemento de más a la izquierda de dicho nodo
+        while(aux.getIzquierdo() != null){
+            aux = aux.getIzquierdo();
+        }
+
         return aux.getValor();
     }
 
