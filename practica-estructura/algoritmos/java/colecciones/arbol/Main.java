@@ -87,10 +87,10 @@ public class Main{
 		System.out.println("Arbol en preOrder: " + arbol);
 		//arbol.borrar(153);
 		
-		arbol.borrar(322);
-		arbol.borrar(34);
+		arbol.borrar(151);
+		//arbol.borrar(34);
 
-		System.out.println("Se borro el elemento 322 y 34");
+		System.out.println("Se borro el elemento 340");
 		System.out.println("Arbol en preOrder: " + arbol);
 		System.out.println("Altura del arbol: " + arbol.altura());
 		System.out.println("Cantidad de elementos del arbol: " + arbol.elementos());

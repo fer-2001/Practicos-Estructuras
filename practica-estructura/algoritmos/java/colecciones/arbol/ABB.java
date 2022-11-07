@@ -158,17 +158,16 @@ public class ABB<T> implements Diccionario<T> {
         }
 
 
-        if(aux.getDerecho() == null && aux.getIzquierdo() == null){    
+        if (aux.getDerecho() == null && aux.getIzquierdo() == null){    
             if((aux2.getDerecho()) != null  && comparador.compare(((aux2.getDerecho()).getValor()), aux.getValor()) == 0){
                 aux2.setDerecho(null);
             }
             else{
                 aux2.setIzquierdo(null);
             }  
-        }
-
-        else{
-              if(aux.getDerecho() == null && aux.getIzquierdo() != null){
+        }else{
+        
+            if(aux.getDerecho() == null && aux.getIzquierdo() != null){
                 aux.setValor((aux.getIzquierdo()).getValor());
                 aux.setIzquierdo(null);
             }
@@ -176,6 +175,15 @@ public class ABB<T> implements Diccionario<T> {
             if(aux.getDerecho() != null && aux.getIzquierdo() == null){
                 aux.setValor((aux.getDerecho()).getValor());
                 aux.setDerecho(null);
+            }
+            
+            System.out.println("Llego al ultimo if");
+            
+            if(aux.getDerecho() != null && aux.getIzquierdo() != null){
+              ABB<T> arbolIzquierdo = new ABB<T>(comparador, aux);
+              T mayor = arbolIzquierdo.mayorValor();
+              aux.setValor(mayor);
+              borrar(mayor);
             }  
         }
 
