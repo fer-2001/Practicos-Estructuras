@@ -141,8 +141,9 @@ public class ABB<T> implements Diccionario<T> {
         }
 
         aux = raiz;
-
+        // Busqueda del elemento a buscar
         while(control){
+            // Aux2 conserva el nodo anterior a aux
             aux2 = aux;
             if((comparador.compare(aux.getValor(), elem)) > 0){
                 aux = aux.getIzquierdo();
@@ -157,7 +158,7 @@ public class ABB<T> implements Diccionario<T> {
             }
         }
 
-
+        // Caso de borrado de una hoja
         if (aux.getDerecho() == null && aux.getIzquierdo() == null){    
             if((aux2.getDerecho()) != null  && comparador.compare(((aux2.getDerecho()).getValor()), aux.getValor()) == 0){
                 aux2.setDerecho(null);
@@ -166,24 +167,22 @@ public class ABB<T> implements Diccionario<T> {
                 aux2.setIzquierdo(null);
             }  
         }else{
-        
+            // Caso nodo con solamente hijo a la izquierda
             if(aux.getDerecho() == null && aux.getIzquierdo() != null){
                 aux.setValor((aux.getIzquierdo()).getValor());
                 aux.setIzquierdo(null);
             }
-
+            // Caso nodo con solamente hijo a la derecha
             if(aux.getDerecho() != null && aux.getIzquierdo() == null){
                 aux.setValor((aux.getDerecho()).getValor());
                 aux.setDerecho(null);
             }
-            
-            System.out.println("Llego al ultimo if");
-            
+            // Caso del nodo que tiene sus dos hijos con nodos            
             if(aux.getDerecho() != null && aux.getIzquierdo() != null){
-              ABB<T> arbolIzquierdo = new ABB<T>(comparador, aux);
+              ABB<T> arbolIzquierdo = new ABB<T>(comparador, aux.getIzquierdo());
               T mayor = arbolIzquierdo.mayorValor();
               aux.setValor(mayor);
-              borrar(mayor);
+              arbolIzquierdo.borrar(mayor);
             }  
         }
 
