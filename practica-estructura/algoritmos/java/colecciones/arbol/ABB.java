@@ -131,8 +131,11 @@ public class ABB<T> implements Diccionario<T> {
      */
     @Override
     public void borrar(T elem) {
+        
         boolean control = true;
         NodoBinario<T> aux =  new NodoBinario<T>();
+        NodoBinario<T> aux2 =  new NodoBinario<T>();
+
         if(comparador == null){
             throw new UnsupportedOperationException("Comparador es null");
         }
@@ -140,27 +143,41 @@ public class ABB<T> implements Diccionario<T> {
         aux = raiz;
 
         while(control){
-            if((comparador.compare((aux.getDerecho()).getValor(), elem)) < 0){
-                aux = aux.getDerecho();
-            }
-            if((comparador.compare((aux.getIzquierdo()).getValor(), elem)) > 0){
+            aux2 = aux;
+            if((comparador.compare(aux.getValor(), elem)) > 0){
                 aux = aux.getIzquierdo();
             }
 
-            if((comparador.compare((aux.getDerecho()).getValor(), elem)) == 0){
-                aux.setDerecho(null);
+            if((comparador.compare(aux.getValor(), elem)) < 0){
+                aux = aux.getDerecho();
+            }
+
+            if((comparador.compare(aux.getValor(), elem)) == 0){
                 control = false;
             }
-            if((comparador.compare((aux.getIzquierdo()).getValor(), elem)) == 0){
-                aux.setIzquierdo(null);
-                control = false;
-            }       
         }
 
-        //if(aux.getDerecho() == null && aux.getIzquierdo() == null){
-           // System.out.println("Valor a eliminar: " + aux.getValor());
-           // aux = null;
-        //}
+
+        if(aux.getDerecho() == null && aux.getIzquierdo() == null){    
+            if((aux2.getDerecho()) != null  && comparador.compare(((aux2.getDerecho()).getValor()), aux.getValor()) == 0){
+                aux2.setDerecho(null);
+            }
+            else{
+                aux2.setIzquierdo(null);
+            }  
+        }
+
+        else{
+              if(aux.getDerecho() == null && aux.getIzquierdo() != null){
+                aux.setValor((aux.getIzquierdo()).getValor());
+                aux.setIzquierdo(null);
+            }
+
+            if(aux.getDerecho() != null && aux.getIzquierdo() == null){
+                aux.setValor((aux.getDerecho()).getValor());
+                aux.setDerecho(null);
+            }  
+        }
 
     }
 

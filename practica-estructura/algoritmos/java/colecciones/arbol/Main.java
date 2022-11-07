@@ -81,11 +81,16 @@ public class Main{
 		System.out.println("Mayor elemento: " + (arbol.mayorValor()));
 		System.out.println("Menor elemento: " + (arbol.menorValor()));
 		//System.out.println("El elemento pertenece? " + arbol.pertenece(8));
-		//arbol.borrar(4);
 		//ABB<Integer> arbol2 = arbol.subArbolIzquierdo();
 		System.out.println("Sucesor de 153: " + arbol.sucesor(153));
 		System.out.println("predecesor de 153: " + arbol.predecesor(153));
+		System.out.println("Arbol en preOrder: " + arbol);
+		//arbol.borrar(153);
+		
+		arbol.borrar(322);
+		arbol.borrar(34);
 
+		System.out.println("Se borro el elemento 322 y 34");
 		System.out.println("Arbol en preOrder: " + arbol);
 		System.out.println("Altura del arbol: " + arbol.altura());
 		System.out.println("Cantidad de elementos del arbol: " + arbol.elementos());
