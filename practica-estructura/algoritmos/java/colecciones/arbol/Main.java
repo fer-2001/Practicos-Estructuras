@@ -10,6 +10,8 @@ public class Main{
 	public static void main(String[] args){
     	Comparator<Integer> comp = Comparator.naturalOrder();
     	ABB<Integer> arbol = new ABB<>(comp);
+	   	ABB<Integer> arbol2 = new ABB<>(comp);
+
 		/*
 		arbol.insertar(5);
 		arbol.insertar(6);
@@ -56,8 +58,33 @@ public class Main{
 		arbol.insertar(331);
 		arbol.insertar(308);
 		arbol.insertar(322);
-	
-		
+		arbol.borrar(273);
+		arbol.borrar(322);
+		arbol.insertar(332);
+
+
+	/*
+		arbol2.insertar(346);
+		arbol2.insertar(151);
+		arbol2.insertar(79);
+		arbol2.insertar(17);
+		arbol2.insertar(4);
+		arbol2.insertar(34);
+		arbol2.insertar(77);
+		arbol2.insertar(137);
+		arbol2.insertar(104);
+		arbol2.insertar(268);
+		arbol2.insertar(180);
+		arbol2.insertar(153);
+		arbol2.insertar(188);
+		arbol2.insertar(306);
+		arbol2.insertar(292);
+		arbol2.insertar(278);
+		arbol2.insertar(273);
+		arbol2.insertar(331);
+		arbol2.insertar(308);
+		arbol2.insertar(322);
+		*/
 	/*
 		arbol.insertar(50);
 		arbol.insertar(51);
@@ -78,20 +105,23 @@ public class Main{
 	*/
 
 
-		System.out.println("Mayor elemento: " + (arbol.mayorValor()));
-		System.out.println("Menor elemento: " + (arbol.menorValor()));
+		//System.out.println("Mayor elemento: " + (arbol.mayorValor()));
+		//System.out.println("Menor elemento: " + (arbol.menorValor()));
 		//System.out.println("El elemento pertenece? " + arbol.pertenece(8));
-		//ABB<Integer> arbol2 = arbol.subArbolIzquierdo();
-		System.out.println("Sucesor de 153: " + arbol.sucesor(153));
-		System.out.println("predecesor de 153: " + arbol.predecesor(153));
-		System.out.println("Arbol en preOrder: " + arbol);
+		
+		//System.out.println("Sucesor de 153: " + arbol.sucesor(153));
+		//System.out.println("predecesor de 153: " + arbol.predecesor(153));
+		//System.out.println("Arbol en preOrder: " + arbol);
+		//Diccionario<Integer> arbol2 = arbol.subArbolIzquierdo();
+		//System.out.println("Arbol2 en preOrder: " + arbol2);
+
 		//arbol.borrar(153);
 		
-		arbol.borrar(151);
+	
 		//arbol.borrar(34);
 
-		System.out.println("Se borro el elemento 151");
-		System.out.println("Arbol en preOrder: " + arbol);
+		//System.out.println("Se borro el elemento 151");
+		//System.out.println("Arbol en preOrder: " + arbol);
 		System.out.println("Altura del arbol: " + arbol.altura());
 		System.out.println("Cantidad de elementos del arbol: " + arbol.elementos());
 

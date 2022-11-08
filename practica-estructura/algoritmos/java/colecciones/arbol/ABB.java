@@ -51,9 +51,9 @@ public class ABB<T> implements Diccionario<T> {
         // -1 < 
         // 0 ==
        // 1 >
-
-
         boolean control = true;
+        NodoBinario<T> aux = new NodoBinario<T>();
+
         if(comparador == null){
             throw new UnsupportedOperationException("comparador es null");
         }
@@ -63,10 +63,8 @@ public class ABB<T> implements Diccionario<T> {
             control = false;
         }
 
-        NodoBinario<T> aux = new NodoBinario<T>();
         aux = raiz;
         while(control){
-
         if(aux.getIzquierdo() == null && (comparador.compare(aux.getValor(), elem) > 0)){
             NodoBinario<T> nodo1 = new NodoBinario<T>(elem);
             aux.setIzquierdo(nodo1);
@@ -86,8 +84,27 @@ public class ABB<T> implements Diccionario<T> {
         
         }
 
+        reCalcularAltura(raiz);
+
     }
 
+    private void reCalcularAltura(NodoBinario<T> raiz){
+
+        NodoBinario<T> hi = new NodoBinario<T>();
+        NodoBinario<T> hd = new NodoBinario<T>();
+
+        raiz.setAltura(altura());
+
+        if(raiz.getIzquierdo() != null){
+            hi = raiz.getIzquierdo();
+            reCalcularAltura(hi);            
+        }
+        if(raiz.getDerecho() != null){
+            hd = raiz.getDerecho();
+            reCalcularAltura(hd);            
+        }
+        
+    }
 
     /**
      * {@inheritDoc}
@@ -185,7 +202,7 @@ public class ABB<T> implements Diccionario<T> {
               arbolIzquierdo.borrar(mayor);
             }  
         }
-
+        reCalcularAltura(raiz);
     }
 
 
