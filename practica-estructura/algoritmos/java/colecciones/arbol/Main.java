@@ -9,8 +9,8 @@ public class Main{
 
 	public static void main(String[] args){
     	Comparator<Integer> comp = Comparator.naturalOrder();
-    	ABB<Integer> arbol = new ABB<>(comp);
-	   	ABB<Integer> arbol2 = new ABB<>(comp);
+    	Avl<Integer> arbol = new Avl<>(comp);
+	   	//ABB<Integer> arbol2 = new ABB<>(comp);
 
 		/*
 		arbol.insertar(5);
@@ -58,8 +58,6 @@ public class Main{
 		arbol.insertar(331);
 		arbol.insertar(308);
 		arbol.insertar(322);
-		arbol.borrar(273);
-		arbol.borrar(322);
 		arbol.insertar(332);
 
 
@@ -100,9 +98,10 @@ public class Main{
 		//arbol.borrar(34);
 
 		//System.out.println("Se borro el elemento 151");
-		//System.out.println("Arbol en preOrder: " + arbol);
+		System.out.println("Arbol en preOrder: " + arbol);
 		System.out.println("Altura del arbol: " + arbol.altura());
 		System.out.println("Cantidad de elementos del arbol: " + arbol.elementos());
+		System.out.println("Balance del arbol (desde su raiz): " + arbol.balance());
 
 		//System.out.println("Arbol en preOrder: " + (arbol.subArbolDerecho()).aLista());
 

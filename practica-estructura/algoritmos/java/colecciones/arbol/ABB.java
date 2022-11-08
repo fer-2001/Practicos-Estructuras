@@ -34,7 +34,6 @@ public class ABB<T> implements Diccionario<T> {
     public ABB(Comparator<? super T> comparador, T valor) {
        this.comparador = comparador;
        raiz = new NodoBinario<T>(valor);
-       //raiz.setValor(valor);
     }
 
     private ABB(Comparator<? super T> comparador, NodoBinario<T> raiz2) {
@@ -92,7 +91,7 @@ public class ABB<T> implements Diccionario<T> {
         NodoBinario<T> hi = new NodoBinario<T>();
         NodoBinario<T> hd = new NodoBinario<T>();
 
-        raiz.setAltura(altura());
+        raiz.setAltura(altura(raiz));
 
         if(raiz.getIzquierdo() != null){
             hi = raiz.getIzquierdo();

@@ -32,7 +32,7 @@ public class Avl<T> implements Diccionario<T> {
     public Avl(Comparator<? super T> comparador) {
         //throw new UnsupportedOperationException("TODO: implementar");
         this.comparador = comparador;
-        this.raiz = null;
+        raiz = new NodoBinario<T>();
     }
 
     /**
@@ -43,7 +43,7 @@ public class Avl<T> implements Diccionario<T> {
      */
     public Avl(Comparator<? super T> comparador, T valor) {
         this.comparador = comparador;
-        raiz.setValor(valor);
+        raiz = new NodoBinario<T>(valor);
     }
 
     private Avl(Comparator<? super T> comparador, NodoBinario<T> raiz2) {
@@ -101,7 +101,7 @@ public class Avl<T> implements Diccionario<T> {
         NodoBinario<T> hi = new NodoBinario<T>();
         NodoBinario<T> hd = new NodoBinario<T>();
 
-        raiz.setAltura(altura());
+        raiz.setAltura(altura(raiz));
 
         if(raiz.getIzquierdo() != null){
             hi = raiz.getIzquierdo();
@@ -458,7 +458,10 @@ public class Avl<T> implements Diccionario<T> {
      * @return diferencia de altura de los subarboles.
      */
     public int balance(){
-        throw new UnsupportedOperationException("TODO: implementar");
+        System.out.println("Altura hi: " + (raiz.getIzquierdo()).getAltura());
+        System.out.println("Altura hd: " + (raiz.getDerecho()).getAltura());
+
+        return (raiz.getIzquierdo()).getAltura() - (raiz.getDerecho()).getAltura();
     }
 
     /**{@inheritDoc}*/
