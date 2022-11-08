@@ -65,23 +65,22 @@ public class ABB<T> implements Diccionario<T> {
 
         aux = raiz;
         while(control){
-        if(aux.getIzquierdo() == null && (comparador.compare(aux.getValor(), elem) > 0)){
-            NodoBinario<T> nodo1 = new NodoBinario<T>(elem);
-            aux.setIzquierdo(nodo1);
-            control = false;
-        }
-        if(aux.getDerecho() == null && (comparador.compare(aux.getValor(), elem) < 0)){
-            NodoBinario<T> nodo1 = new NodoBinario<T>(elem);
-            aux.setDerecho(nodo1);
-            control = false;
-        }
-        if(aux.getIzquierdo() != null && (comparador.compare(aux.getValor(), elem) > 0)){
-            aux = aux.getIzquierdo();
-        }
-        if(aux.getDerecho() != null  && (comparador.compare(aux.getValor(), elem) < 0)){
-            aux = aux.getDerecho();
-        }
-        
+            if(aux.getIzquierdo() == null && (comparador.compare(aux.getValor(), elem) > 0)){
+                NodoBinario<T> nodo1 = new NodoBinario<T>(elem);
+                aux.setIzquierdo(nodo1);
+                control = false;
+            }
+            if(aux.getDerecho() == null && (comparador.compare(aux.getValor(), elem) < 0)){
+                NodoBinario<T> nodo1 = new NodoBinario<T>(elem);
+                aux.setDerecho(nodo1);
+                control = false;
+            }
+            if(aux.getIzquierdo() != null && (comparador.compare(aux.getValor(), elem) > 0)){
+                aux = aux.getIzquierdo();
+            }
+            if(aux.getDerecho() != null  && (comparador.compare(aux.getValor(), elem) < 0)){
+                aux = aux.getDerecho();
+            }
         }
 
         reCalcularAltura(raiz);

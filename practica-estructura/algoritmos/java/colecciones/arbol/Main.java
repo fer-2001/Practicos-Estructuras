@@ -63,28 +63,7 @@ public class Main{
 		arbol.insertar(332);
 
 
-	/*
-		arbol2.insertar(346);
-		arbol2.insertar(151);
-		arbol2.insertar(79);
-		arbol2.insertar(17);
-		arbol2.insertar(4);
-		arbol2.insertar(34);
-		arbol2.insertar(77);
-		arbol2.insertar(137);
-		arbol2.insertar(104);
-		arbol2.insertar(268);
-		arbol2.insertar(180);
-		arbol2.insertar(153);
-		arbol2.insertar(188);
-		arbol2.insertar(306);
-		arbol2.insertar(292);
-		arbol2.insertar(278);
-		arbol2.insertar(273);
-		arbol2.insertar(331);
-		arbol2.insertar(308);
-		arbol2.insertar(322);
-		*/
+
 	/*
 		arbol.insertar(50);
 		arbol.insertar(51);
