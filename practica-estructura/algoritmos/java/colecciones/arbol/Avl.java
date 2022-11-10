@@ -51,154 +51,109 @@ public class Avl<T> implements Diccionario<T> {
         raiz = raiz2;
     }
 
+   
+    /* ROTACION A DERECHA SIMPLE
+    * Rota el subarbol pasado como parametro a la derecha 
+    * @param root el subarbol
+    * @return el subarbol rotado
+    */
+    private NodoBinario<T> rotRight (NodoBinario<T> root){    
+      NodoBinario<T> result = root.getIzquierdo();  //result = hi del nodo
+      root.setIzquierdo(result.getDerecho());      //Pone todos los mayores a la nueva raiz de hi de la vieja raiz
+      result.setDerecho(root);                    //Baja la vieja raiz a hd de la nueva
+      /* Actualiza alturas */
+      root.setAltura(1+ Math.max(altura(root.getIzquierdo()), altura(root.getDerecho())));
+      result.setAltura(1+ Math.max(altura(result.getIzquierdo()), altura(result.getDerecho())));
+      return result; 
+    }
+
+    /* ROTACION A IZQUIERDA SIMPLE
+    * Rota el subarbol pasado como parametro a la izquierda 
+    * @param root el subarbol
+    * @return el subarbol rotado
+    */
+    private  NodoBinario<T> rotLeft(NodoBinario<T> root){
+      NodoBinario<T> result = root.getDerecho();    //result = hd del nodo
+      root.setDerecho(result.getIzquierdo());      //Pone todos los menores a la nueva raiz de hd de la vieja raiz
+      result.setIzquierdo(root);                  //Baja la vieja raiz a hi de la nueva
+      /* Actualiza alturas */
+      root.setAltura(1+ Math.max(altura(root.getIzquierdo()), altura(root.getDerecho())));
+      result.setAltura(1+ Math.max(altura(result.getIzquierdo()), altura(result.getDerecho())));
+      return result; 
+    }
+
+    /*
+    * ROTACION RL
+    * Rota a izquierda el subarbol derecho, lo setea nuevamente en su lugar y luego hace una rotacion a derecha sobre el
+    * @param root el subarbol
+    * @return el subarbol rotado
+    */
+    private  NodoBinario<T> rotRL (NodoBinario<T> root){
+      NodoBinario<T> hd = root.getDerecho();
+      root.setDerecho(rotRight (hd) );   //Se aplica rotacion derecha simple al hijo derecho del nodo (luego se "une" a el)
+      return rotLeft( root );           //Se aplica rotacion izq simple al nodo desbalanceado (ahora como caso DER-DER)
+    }
+
+    /*
+    * ROTACION LR
+    * Rota a derecha el subarbol izquierdo, lo setea nuevamente en su lugar y luego hace una rotacion a izquierda sobre el
+    * @param root el subarbol
+    * @return el subarbol rotado
+    */
+    private  NodoBinario<T> rotLR (NodoBinario<T> root){
+      NodoBinario<T> hi = root.getIzquierdo();
+      root.setIzquierdo(rotLeft (hi) );    // Se aplica rotacion izq simple al hi del nodo (luego se "une" a el)
+      return rotRight( root );            //Se aplica rotacion derecha simple al nodo desbalanceado (ahora como caso IZQ-IZQ)
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void insertar(T elem) {
-        // "Compare" se puede ver como la resta del primero con el segundo (ob1 - obj2)
-        // -1 < 
-        // 0 ==
-       // 1 >
-        //boolean control = true;
-        //NodoBinario<T> aux = new NodoBinario<T>();
-        //NodoBinario<T> aux2 = new NodoBinario<T>();
+    public void insertar( T elem ) {
+      if (comparador != null){
+        NodoBinario<T> root = raiz;
+        raiz = insertar(elem, root);
+      }
+      else throw new UnsupportedOperationException("Comparador null");    
+    }
 
-        insertar(elem,raiz);
-        reCalcularAltura(raiz);
-        /*
-        if(comparador == null){
-            throw new UnsupportedOperationException("comparador es null");
+    /* Metodo de insertar inductivo privado sobrecargado con parametro nodo */
+    private NodoBinario<T> insertar (T elem, NodoBinario<T> root){
+
+      /* Insercion */
+      if (root.getValor()==null) // Caso Base
+        root = new NodoBinario<T>(elem);  
+      
+      else if (comparador.compare(elem, root.getValor())<0)       //Si el elem. es menor al valor del nodo se va al subarbol izquierdo
+        root.setIzquierdo(insertar(elem, root.getIzquierdo()));  //Llama recursivamente hasta que entre por el caso base (hoja)
+
+      else if (comparador.compare(elem, root.getValor())>0)    //Si el elem. es mayor al valor del nodo se va al subarbol derecho
+        root.setDerecho(insertar(elem, root.getDerecho()));   //Llama recursivamente hasta que entre por el caso base (hoja)
+
+      else throw new IllegalStateException("El elemento ya pertenece al arbol");  //Elemento existente (elem == root.getvalor)
+
+      root.setAltura(1 + Math.max(altura(root.getIzquierdo()), altura(root.getIzquierdo()))); //Actualizo altura del nodo
+
+        /* CHEQUEO DE BALANCE */
+        if (balance(root)==(-2)){                      /* HD mas profundo */
+          if (balance(root.getDerecho()) <= 0)        /* Caso DER-DER */
+            root = rotLeft(root);                    /* Rot a IZQ simple */
+                      
+          else                                      /* CASO DER-IZQ */
+            root = rotRL(root);                    /* Rot IZQ doble */
         }
 
-        if(raiz.getValor() == null){
-            raiz.setValor(elem);
-            control = false;
+        else if (balance(root)==2){                      /* HI mas profundo */
+          if (balance(root.getIzquierdo())>=0)          /* Caso IZQ-IZQ */
+            root = rotRight(root);                     /* Rot a DER simple */                    
+          else                                        /* CASO IZQ-DER */
+            root = rotLR(root);                      /* : Rot DER doble */
         }
-
-        aux = raiz;
-
-            aux2 = aux;
-            if(aux.getIzquierdo() == null && (comparador.compare(aux.getValor(), elem) > 0)){
-                NodoBinario<T> nodo1 = new NodoBinario<T>(elem);
-                aux.setIzquierdo(nodo1);
-                control = false;
-            }
-            if(aux.getDerecho() == null && (comparador.compare(aux.getValor(), elem) < 0)){
-                NodoBinario<T> nodo1 = new NodoBinario<T>(elem);
-                aux.setDerecho(nodo1);
-                control = false;
-            }
-            if(aux.getIzquierdo() != null && (comparador.compare(aux.getValor(), elem) > 0)){
-                aux = aux.getIzquierdo();
-            }
-            if(aux.getDerecho() != null  && (comparador.compare(aux.getValor(), elem) < 0)){
-                aux = aux.getDerecho();
-            }
-            */ 
         
-
-
-        /*
-        reCalcularAltura(raiz);
-
-        int balance = balance(aux2);
- 
-        // If this node becomes unbalanced, then there
-        // are 4 cases Left Left Case
-        if (aux2.getIzquierdo() != null && balance > 1 && comparador.compare(elem,(aux2.getIzquierdo()).getValor()) < 0){
-            rightRotate(aux2);
-        }
- 
-        // Right Right Case
-        if (aux2.getDerecho() != null && balance < -1 && comparador.compare(elem, (aux2.getDerecho()).getValor()) > 0)
-            leftRotate(aux2);
- 
-        // Left Right Case
-        if (aux2.getIzquierdo() != null && balance > 1 && comparador.compare(elem,(aux2.getIzquierdo()).getValor()) > 0) {
-            aux2.setIzquierdo(leftRotate(aux2.getIzquierdo()));
-            if(aux2.getIzquierdo() != null){
-               rightRotate(aux2); 
-            }
-            
-        }
- 
-        // Right Left Case
-        if (aux2.getDerecho() != null && balance < -1 && comparador.compare(elem,(aux2.getDerecho()).getValor()) < 0) {
-            aux2.setIzquierdo(rightRotate(aux2.getDerecho()));
-            leftRotate(aux2);
-        }
-
-        reCalcularAltura(raiz);
-        */
+      return root;
     }
 
-    private void insertar(T elem, NodoBinario<T> raiz1){
-        int altHI;
-        int altHD;
-        if(comparador == null){
-            throw new UnsupportedOperationException("comparador es null");
-        }
-
-        if(raiz1.getValor() == null){
-            raiz1.setValor(elem);
-        }
-
-        if(raiz1.getIzquierdo() == null && (comparador.compare(raiz1.getValor(), elem) > 0)){
-            NodoBinario<T> nodo1 = new NodoBinario<T>(elem);
-            raiz1.setIzquierdo(nodo1);
-        }
-        if(raiz1.getDerecho() == null && (comparador.compare(raiz1.getValor(), elem) < 0)){
-            NodoBinario<T> nodo1 = new NodoBinario<T>(elem);
-            raiz1.setDerecho(nodo1);
-        }
-        if(raiz1.getIzquierdo() != null && (comparador.compare(raiz1.getValor(), elem) > 0)){
-            raiz1 = raiz1.getIzquierdo();
-            insertar(elem,raiz1);
-        }
-        if(raiz1.getDerecho() != null  && (comparador.compare(raiz1.getValor(), elem) < 0)){
-            raiz1 = raiz1.getDerecho();
-            insertar(elem,raiz1);
-        }
-        if((raiz1.getIzquierdo()) != null){
-            altHI = (raiz1.getIzquierdo()).getAltura();
-        }else{
-            altHI = 0;
-        }
-        if((raiz1.getDerecho()) != null){
-            altHD = (raiz1.getDerecho()).getAltura();
-        }else{
-            altHD=0;
-        }
-        raiz1.setAltura(1+(Math.max(altHI,altHD)));
-        //System.out.println("Altura del nodo: " + raiz1.getValor() + " es: " + raiz1.getAltura());
-        int balance = balance(raiz1);
-
-        // If this node becomes unbalanced, then there
-        // are 4 cases Left Left Case
-        if (balance > 1 && comparador.compare(elem,(raiz1.getIzquierdo()).getValor()) < 0){
-            rightRotate(raiz1);
-        }
-
-        // Right Right Case
-        if (balance < -1 && comparador.compare(elem, (raiz1.getDerecho()).getValor()) > 0)
-            leftRotate(raiz1);
-
-        // Left Right Case
-        if (raiz1.getIzquierdo() != null && balance > 1 && comparador.compare(elem,(raiz1.getIzquierdo()).getValor()) > 0) {
-            raiz1.setIzquierdo(leftRotate(raiz1.getIzquierdo()));
-            rightRotate(raiz1); 
-            
-            
-        }
-
-        // Right Left Case
-        if (balance < -1 && comparador.compare(elem,(raiz1.getDerecho()).getValor()) < 0) {
-            raiz1.setIzquierdo(rightRotate(raiz1.getDerecho()));
-            leftRotate(raiz1);
-        }            
-    }
 
 
     private void reCalcularAltura(NodoBinario<T> raiz){
@@ -219,99 +174,7 @@ public class Avl<T> implements Diccionario<T> {
         
     }
 
-    // Fuente: https://www.geeksforgeeks.org/insertion-in-an-avl-tree/
-    private NodoBinario<T> leftRotate(NodoBinario<T> x) {
-        int altHI1;
-        int altHD1;
-        int altHI2;
-        int altHD2;
 
-        NodoBinario<T> y = x.getDerecho();
-        NodoBinario<T> z = y.getIzquierdo();
- 
-        // Perform rotation
-        y.setIzquierdo(x);
-        x.setDerecho(z);
- 
-        //  Update heights
-        //x.height = max(height(x.left), height(x.right)) + 1;
-        //y.height = max(height(y.left), height(y.right)) + 1;
-        
-        if((y.getIzquierdo()) != null){
-            altHI1 = (y.getIzquierdo()).getAltura();
-        }else{
-            altHI1 = 0;
-        }
-        if((y.getDerecho()) != null){
-            altHD1 = (y.getDerecho()).getAltura();
-        }else{
-            altHD1=0;
-        }
-
-        if((x.getIzquierdo()) != null){
-            altHI2 = (x.getIzquierdo()).getAltura();
-        }else{
-            altHI2 = 0;
-        }
-        if((x.getDerecho()) != null){
-            altHD2 = (x.getDerecho()).getAltura();
-        }else{
-            altHD2=0;
-        }
-
-
-        y.setAltura((Math.max(altHI1, altHD1)) +1);
-        x.setAltura((Math.max(altHI2, altHD2)) +1);
-        // Return new root
-        return y;
-    }
-
-    private NodoBinario<T> rightRotate(NodoBinario<T> y) {
-        int altHI1;
-        int altHD1;
-        int altHI2;
-        int altHD2;
-        // y se supone que es el nodo anterior al insertado
-        NodoBinario<T> x = y.getIzquierdo();
-        NodoBinario<T> z = x.getDerecho();
- 
-        // Perform rotation
-        x.setDerecho(y);
-        y.setIzquierdo(z);
- 
-        // Update heights
-        //y.height = max((y.left), height(y.right)) + 1;
-        //x.height = max(height(x.left), height(x.right)) + 1;
-
-        if((y.getIzquierdo()) != null){
-            altHI1 = (y.getIzquierdo()).getAltura();
-        }else{
-            altHI1 = 0;
-        }
-        if((y.getDerecho()) != null){
-            altHD1 = (y.getDerecho()).getAltura();
-        }else{
-            altHD1=0;
-        }
-
-        if((x.getIzquierdo()) != null){
-            altHI2 = (x.getIzquierdo()).getAltura();
-        }else{
-            altHI2 = 0;
-        }
-        if((x.getDerecho()) != null){
-            altHD2 = (x.getDerecho()).getAltura();
-        }else{
-            altHD2=0;
-        }
-
-
-        y.setAltura((Math.max(altHI1, altHD1)) +1);
-        x.setAltura((Math.max(altHI2, altHD2)) +1);
-
-        // Return new root
-        return x;
-    }
 
     /**
      * {@inheritDoc}

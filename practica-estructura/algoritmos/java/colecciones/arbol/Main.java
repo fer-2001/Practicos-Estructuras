@@ -37,7 +37,7 @@ public class Main{
 	
 		*/
     
-		arbol.insertar(340);
+		//<arbol.insertar(340);
 		arbol.insertar(346);
 		arbol.insertar(151);
 		arbol.insertar(79);
