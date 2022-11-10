@@ -1,0 +1,102 @@
+   
+    /* ROTACION A DERECHA SIMPLE
+    * Rota el subarbol pasado como parametro a la derecha 
+    * @param root el subarbol
+    * @return el subarbol rotado
+    */
+    private NodoBinario<T> rotRight (NodoBinario<T> root){    
+      NodoBinario<T> result = root.getIzquierdo();  //result = hi del nodo
+      root.setIzquierdo(result.getDerecho());      //Pone todos los mayores a la nueva raiz de hi de la vieja raiz
+      result.setDerecho(root);                    //Baja la vieja raiz a hd de la nueva
+      /* Actualiza alturas */
+      root.setAltura(1+ Math.max(altura(root.getIzquierdo()), altura(root.getDerecho())));
+      result.setAltura(1+ Math.max(altura(result.getIzquierdo()), altura(result.getDerecho())));
+      return result; 
+    }
+
+    /* ROTACION A IZQUIERDA SIMPLE
+    * Rota el subarbol pasado como parametro a la izquierda 
+    * @param root el subarbol
+    * @return el subarbol rotado
+    */
+    private  NodoBinario<T> rotLeft(NodoBinario<T> root){
+      NodoBinario<T> result = root.getDerecho();    //result = hd del nodo
+      root.setDerecho(result.getIzquierdo());      //Pone todos los menores a la nueva raiz de hd de la vieja raiz
+      result.setIzquierdo(root);                  //Baja la vieja raiz a hi de la nueva
+      /* Actualiza alturas */
+      root.setAltura(1+ Math.max(altura(root.getIzquierdo()), altura(root.getDerecho())));
+      result.setAltura(1+ Math.max(altura(result.getIzquierdo()), altura(result.getDerecho())));
+      return result; 
+    }
+
+    /*
+    * ROTACION RL
+    * Rota a izquierda el subarbol derecho, lo setea nuevamente en su lugar y luego hace una rotacion a derecha sobre el
+    * @param root el subarbol
+    * @return el subarbol rotado
+    */
+    private  NodoBinario<T> rotRL (NodoBinario<T> root){
+      NodoBinario<T> hd = root.getDerecho();
+      root.setDerecho(rotRight (hd) );   //Se aplica rotacion derecha simple al hijo derecho del nodo (luego se "une" a el)
+      return rotLeft( root );           //Se aplica rotacion izq simple al nodo desbalanceado (ahora como caso DER-DER)
+    }
+
+    /*
+    * ROTACION LR
+    * Rota a derecha el subarbol izquierdo, lo setea nuevamente en su lugar y luego hace una rotacion a izquierda sobre el
+    * @param root el subarbol
+    * @return el subarbol rotado
+    */
+    private  NodoBinario<T> rotLR (NodoBinario<T> root){
+      NodoBinario<T> hi = root.getIzquierdo();
+      root.setIzquierdo(rotLeft (hi) );    // Se aplica rotacion izq simple al hi del nodo (luego se "une" a el)
+      return rotRight( root );            //Se aplica rotacion derecha simple al nodo desbalanceado (ahora como caso IZQ-IZQ)
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void insertar( T elem ) {
+      if (comparador != null){
+        NodoBinario<T> root = raiz;
+        raiz = insertar(elem, root);
+      }
+      else throw new UnsupportedOperationException("Comparador null");    
+    }
+
+    /* Metodo de insertar inductivo privado sobrecargado con parametro nodo */
+    private NodoBinario<T> insertar (T elem, NodoBinario<T> root){
+
+      /* Insercion */
+      if (root==null) // Caso Base
+        root = new NodoBinario<T>(elem);  
+      
+      else if (comparador.compare(elem, root.getValor())<0)       //Si el elem. es menor al valor del nodo se va al subarbol izquierdo
+        root.setIzquierdo(insertar(elem, root.getIzquierdo()));  //Llama recursivamente hasta que entre por el caso base (hoja)
+
+      else if (comparador.compare(elem, root.getValor())>0)    //Si el elem. es mayor al valor del nodo se va al subarbol derecho
+        root.setDerecho(insertar(elem, root.getDerecho()));   //Llama recursivamente hasta que entre por el caso base (hoja)
+
+      else throw new IllegalStateException("El elemento ya pertenece al arbol");  //Elemento existente (elem == root.getvalor)
+
+      root.setAltura(1 + Math.max(altura(root.getIzquierdo()), altura(root.getIzquierdo()))); //Actualizo altura del nodo
+
+        /* CHEQUEO DE BALANCE */
+        if (balance(root)==(-2)){                      /* HD mas profundo */
+          if (balance(root.getDerecho()) <= 0)        /* Caso DER-DER */
+            root = rotLeft(root);                    /* Rot a IZQ simple */
+                      
+          else                                      /* CASO DER-IZQ */
+            root = rotRL(root);                    /* Rot IZQ doble */
+        }
+
+        else if (balance(root)==2){                      /* HI mas profundo */
+          if (balance(root.getIzquierdo())>=0)          /* Caso IZQ-IZQ */
+            root = rotRight(root);                     /* Rot a DER simple */                    
+          else                                        /* CASO IZQ-DER */
+            root = rotLR(root);                      /* : Rot DER doble */
+        }
+        
+      return root;
+    }

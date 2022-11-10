@@ -56,16 +56,18 @@ public class Avl<T> implements Diccionario<T> {
      * {@inheritDoc}
      */
     @Override
-    public void insertar( T elem ) {
+    public void insertar(T elem) {
         // "Compare" se puede ver como la resta del primero con el segundo (ob1 - obj2)
         // -1 < 
         // 0 ==
        // 1 >
-        boolean control = true;
-        NodoBinario<T> aux = new NodoBinario<T>();
-        NodoBinario<T> aux2 = new NodoBinario<T>();
+        //boolean control = true;
+        //NodoBinario<T> aux = new NodoBinario<T>();
+        //NodoBinario<T> aux2 = new NodoBinario<T>();
 
-
+        insertar(elem,raiz);
+        reCalcularAltura(raiz);
+        /*
         if(comparador == null){
             throw new UnsupportedOperationException("comparador es null");
         }
@@ -76,7 +78,7 @@ public class Avl<T> implements Diccionario<T> {
         }
 
         aux = raiz;
-        while(control){
+
             aux2 = aux;
             if(aux.getIzquierdo() == null && (comparador.compare(aux.getValor(), elem) > 0)){
                 NodoBinario<T> nodo1 = new NodoBinario<T>(elem);
@@ -93,9 +95,12 @@ public class Avl<T> implements Diccionario<T> {
             }
             if(aux.getDerecho() != null  && (comparador.compare(aux.getValor(), elem) < 0)){
                 aux = aux.getDerecho();
-            } 
-        }
+            }
+            */ 
+        
 
+
+        /*
         reCalcularAltura(raiz);
 
         int balance = balance(aux2);
@@ -126,15 +131,82 @@ public class Avl<T> implements Diccionario<T> {
         }
 
         reCalcularAltura(raiz);
-
+        */
     }
+
+    private void insertar(T elem, NodoBinario<T> raiz1){
+        int altHI;
+        int altHD;
+        if(comparador == null){
+            throw new UnsupportedOperationException("comparador es null");
+        }
+
+        if(raiz1.getValor() == null){
+            raiz1.setValor(elem);
+        }
+
+        if(raiz1.getIzquierdo() == null && (comparador.compare(raiz1.getValor(), elem) > 0)){
+            NodoBinario<T> nodo1 = new NodoBinario<T>(elem);
+            raiz1.setIzquierdo(nodo1);
+        }
+        if(raiz1.getDerecho() == null && (comparador.compare(raiz1.getValor(), elem) < 0)){
+            NodoBinario<T> nodo1 = new NodoBinario<T>(elem);
+            raiz1.setDerecho(nodo1);
+        }
+        if(raiz1.getIzquierdo() != null && (comparador.compare(raiz1.getValor(), elem) > 0)){
+            raiz1 = raiz1.getIzquierdo();
+            insertar(elem,raiz1);
+        }
+        if(raiz1.getDerecho() != null  && (comparador.compare(raiz1.getValor(), elem) < 0)){
+            raiz1 = raiz1.getDerecho();
+            insertar(elem,raiz1);
+        }
+        if((raiz1.getIzquierdo()) != null){
+            altHI = (raiz1.getIzquierdo()).getAltura();
+        }else{
+            altHI = 0;
+        }
+        if((raiz1.getDerecho()) != null){
+            altHD = (raiz1.getDerecho()).getAltura();
+        }else{
+            altHD=0;
+        }
+        raiz1.setAltura(1+(Math.max(altHI,altHD)));
+        //System.out.println("Altura del nodo: " + raiz1.getValor() + " es: " + raiz1.getAltura());
+        int balance = balance(raiz1);
+
+        // If this node becomes unbalanced, then there
+        // are 4 cases Left Left Case
+        if (balance > 1 && comparador.compare(elem,(raiz1.getIzquierdo()).getValor()) < 0){
+            rightRotate(raiz1);
+        }
+
+        // Right Right Case
+        if (balance < -1 && comparador.compare(elem, (raiz1.getDerecho()).getValor()) > 0)
+            leftRotate(raiz1);
+
+        // Left Right Case
+        if (raiz1.getIzquierdo() != null && balance > 1 && comparador.compare(elem,(raiz1.getIzquierdo()).getValor()) > 0) {
+            raiz1.setIzquierdo(leftRotate(raiz1.getIzquierdo()));
+            rightRotate(raiz1); 
+            
+            
+        }
+
+        // Right Left Case
+        if (balance < -1 && comparador.compare(elem,(raiz1.getDerecho()).getValor()) < 0) {
+            raiz1.setIzquierdo(rightRotate(raiz1.getDerecho()));
+            leftRotate(raiz1);
+        }            
+    }
+
 
     private void reCalcularAltura(NodoBinario<T> raiz){
 
         NodoBinario<T> hi = new NodoBinario<T>();
         NodoBinario<T> hd = new NodoBinario<T>();
 
-        raiz.setAltura(altura(raiz));
+        raiz.setAltura(1+altura(raiz));
 
         if(raiz.getIzquierdo() != null){
             hi = raiz.getIzquierdo();
@@ -149,6 +221,11 @@ public class Avl<T> implements Diccionario<T> {
 
     // Fuente: https://www.geeksforgeeks.org/insertion-in-an-avl-tree/
     private NodoBinario<T> leftRotate(NodoBinario<T> x) {
+        int altHI1;
+        int altHD1;
+        int altHI2;
+        int altHD2;
+
         NodoBinario<T> y = x.getDerecho();
         NodoBinario<T> z = y.getIzquierdo();
  
@@ -159,12 +236,42 @@ public class Avl<T> implements Diccionario<T> {
         //  Update heights
         //x.height = max(height(x.left), height(x.right)) + 1;
         //y.height = max(height(y.left), height(y.right)) + 1;
- 
+        
+        if((y.getIzquierdo()) != null){
+            altHI1 = (y.getIzquierdo()).getAltura();
+        }else{
+            altHI1 = 0;
+        }
+        if((y.getDerecho()) != null){
+            altHD1 = (y.getDerecho()).getAltura();
+        }else{
+            altHD1=0;
+        }
+
+        if((x.getIzquierdo()) != null){
+            altHI2 = (x.getIzquierdo()).getAltura();
+        }else{
+            altHI2 = 0;
+        }
+        if((x.getDerecho()) != null){
+            altHD2 = (x.getDerecho()).getAltura();
+        }else{
+            altHD2=0;
+        }
+
+
+        y.setAltura((Math.max(altHI1, altHD1)) +1);
+        x.setAltura((Math.max(altHI2, altHD2)) +1);
         // Return new root
         return y;
     }
 
     private NodoBinario<T> rightRotate(NodoBinario<T> y) {
+        int altHI1;
+        int altHD1;
+        int altHI2;
+        int altHD2;
+        // y se supone que es el nodo anterior al insertado
         NodoBinario<T> x = y.getIzquierdo();
         NodoBinario<T> z = x.getDerecho();
  
@@ -173,9 +280,35 @@ public class Avl<T> implements Diccionario<T> {
         y.setIzquierdo(z);
  
         // Update heights
-        //y.height = max(height(y.left), height(y.right)) + 1;
+        //y.height = max((y.left), height(y.right)) + 1;
         //x.height = max(height(x.left), height(x.right)) + 1;
- 
+
+        if((y.getIzquierdo()) != null){
+            altHI1 = (y.getIzquierdo()).getAltura();
+        }else{
+            altHI1 = 0;
+        }
+        if((y.getDerecho()) != null){
+            altHD1 = (y.getDerecho()).getAltura();
+        }else{
+            altHD1=0;
+        }
+
+        if((x.getIzquierdo()) != null){
+            altHI2 = (x.getIzquierdo()).getAltura();
+        }else{
+            altHI2 = 0;
+        }
+        if((x.getDerecho()) != null){
+            altHD2 = (x.getDerecho()).getAltura();
+        }else{
+            altHD2=0;
+        }
+
+
+        y.setAltura((Math.max(altHI1, altHD1)) +1);
+        x.setAltura((Math.max(altHI2, altHD2)) +1);
+
         // Return new root
         return x;
     }
@@ -524,6 +657,9 @@ public class Avl<T> implements Diccionario<T> {
      * @return diferencia de altura de los subarboles.
      */
     public int balance(){
+        System.out.println("Altura HI: " + (raiz.getIzquierdo()).getAltura());
+        System.out.println("Altura HI: " + (raiz.getDerecho()).getAltura());
+
         return (raiz.getIzquierdo()).getAltura() - (raiz.getDerecho()).getAltura();
     }
 

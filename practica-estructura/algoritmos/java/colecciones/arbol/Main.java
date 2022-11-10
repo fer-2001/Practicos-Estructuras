@@ -55,10 +55,10 @@ public class Main{
 		arbol.insertar(292);
 		arbol.insertar(278);
 		arbol.insertar(273);
-		//arbol.insertar(331);
-		//arbol.insertar(308);
-		//arbol.insertar(322);
-		//arbol.insertar(332);
+		arbol.insertar(331);
+		arbol.insertar(308);
+		arbol.insertar(322);
+		arbol.insertar(332);
 
 
 
