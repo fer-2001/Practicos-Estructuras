@@ -9,7 +9,9 @@ public class Main{
 
 	public static void main(String[] args){
     	Comparator<Integer> comp = Comparator.naturalOrder();
-    	ABB<Integer> arbol = new ABB<>(comp);
+    	Avl<Integer> arbol = new Avl<>(comp);
+	   	//ABB<Integer> arbol2 = new ABB<>(comp);
+
 		/*
 		arbol.insertar(5);
 		arbol.insertar(6);
@@ -35,7 +37,7 @@ public class Main{
 	
 		*/
     
-		arbol.insertar(340);
+		//<arbol.insertar(340);
 		arbol.insertar(346);
 		arbol.insertar(151);
 		arbol.insertar(79);
@@ -56,8 +58,10 @@ public class Main{
 		arbol.insertar(331);
 		arbol.insertar(308);
 		arbol.insertar(322);
-	
-		
+		arbol.insertar(332);
+
+
+
 	/*
 		arbol.insertar(50);
 		arbol.insertar(51);
@@ -78,22 +82,26 @@ public class Main{
 	*/
 
 
-		System.out.println("Mayor elemento: " + (arbol.mayorValor()));
-		System.out.println("Menor elemento: " + (arbol.menorValor()));
+		//System.out.println("Mayor elemento: " + (arbol.mayorValor()));
+		//System.out.println("Menor elemento: " + (arbol.menorValor()));
 		//System.out.println("El elemento pertenece? " + arbol.pertenece(8));
-		//ABB<Integer> arbol2 = arbol.subArbolIzquierdo();
-		System.out.println("Sucesor de 153: " + arbol.sucesor(153));
-		System.out.println("predecesor de 153: " + arbol.predecesor(153));
-		System.out.println("Arbol en preOrder: " + arbol);
+		
+		//System.out.println("Sucesor de 153: " + arbol.sucesor(153));
+		//System.out.println("predecesor de 153: " + arbol.predecesor(153));
+		//System.out.println("Arbol en preOrder: " + arbol);
+		//Diccionario<Integer> arbol2 = arbol.subArbolIzquierdo();
+		//System.out.println("Arbol2 en preOrder: " + arbol2);
+
 		//arbol.borrar(153);
 		
-		arbol.borrar(151);
+	
 		//arbol.borrar(34);
 
-		System.out.println("Se borro el elemento 340");
+		//System.out.println("Se borro el elemento 151");
 		System.out.println("Arbol en preOrder: " + arbol);
 		System.out.println("Altura del arbol: " + arbol.altura());
 		System.out.println("Cantidad de elementos del arbol: " + arbol.elementos());
+		System.out.println("Balance del arbol (desde su raiz): " + arbol.balance());
 
 		//System.out.println("Arbol en preOrder: " + (arbol.subArbolDerecho()).aLista());
 
