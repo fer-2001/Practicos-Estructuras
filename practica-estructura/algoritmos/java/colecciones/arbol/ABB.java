@@ -58,8 +58,8 @@ public class ABB<T> implements Diccionario<T> {
             throw new UnsupportedOperationException("comparador es null");
         }
 
-        if(raiz.getValor() == null){
-            raiz.setValor(elem);
+        if(raiz == null){
+            raiz = new NodoBinario<T>(elem);
             control = false;
         }
 

@@ -1,0 +1,20 @@
+
+Heap : Un tipo de arbol binario (No es de busqueda)
+Existen MaxHeap y MinHeap
+Heap se suele tomar como minHeap
+Si es minHeap en la raiz esta el valor mas chico (Esa propiedad es recursiva)
+Caracterisitica principal: son arboles completos (De izq a derecha son completos)
+Borrar es eliminar la raiz y acomodar el arbol
+HI= 2i+1
+HD= 2i+2
+Padre= i-1/2
+Para eliminar la raiz: Buscar la hoja de màs a la derecha (haciendo intercambios con la hoja siempre de màs a la derecha o tmb puede verse como el ultimo elemento del arreglo (haciendo intercambios))
+Insertar: Similar al borrado, buscas la hoja de màs a la derecha y se realizan los intercambios con la raiz
+No se borra el elemento que estaba antes en la raiz
+
+
+
+sd = Sub arbol derecho
+
+
+Si todo sd es distinto de null, se elige el nodo de màs a la izq?
