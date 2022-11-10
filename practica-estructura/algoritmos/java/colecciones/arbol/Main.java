@@ -9,7 +9,7 @@ public class Main{
 
 	public static void main(String[] args){
     	Comparator<Integer> comp = Comparator.naturalOrder();
-    	Avl<Integer> arbol = new Avl<>(comp);
+    	ABB<Integer> arbol = new ABB<>(comp);
 	   	//ABB<Integer> arbol2 = new ABB<>(comp);
 
 		/*
@@ -39,6 +39,9 @@ public class Main{
     
 		//<arbol.insertar(340);
 		arbol.insertar(346);
+		arbol.borrar(346);
+
+		/*
 		arbol.insertar(151);
 		arbol.insertar(79);
 		arbol.insertar(17);
@@ -59,7 +62,7 @@ public class Main{
 		arbol.insertar(308);
 		arbol.insertar(322);
 		arbol.insertar(332);
-
+*/
 
 
 	/*
@@ -101,7 +104,7 @@ public class Main{
 		System.out.println("Arbol en preOrder: " + arbol);
 		System.out.println("Altura del arbol: " + arbol.altura());
 		System.out.println("Cantidad de elementos del arbol: " + arbol.elementos());
-		System.out.println("Balance del arbol (desde su raiz): " + arbol.balance());
+		//System.out.println("Balance del arbol (desde su raiz): " + arbol.balance());
 
 		//System.out.println("Arbol en preOrder: " + (arbol.subArbolDerecho()).aLista());
 

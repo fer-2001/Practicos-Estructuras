@@ -107,102 +107,81 @@ public class ABB<T> implements Diccionario<T> {
     /**
      * {@inheritDoc}
      */
-    public boolean pertenece(T elem) {
 
-        boolean control = true;
-        if(comparador == null){
-            throw new UnsupportedOperationException("comparador es null");
+    @Override
+    public boolean pertenece(T elem) {
+        return pertenece(elem, raiz);
+    }
+
+    private boolean pertenece(T elem, NodoBinario<T> raiz1) {
+        
+
+        if(raiz1 == null){
+            return false;
+        }
+        else{
+            if(comparador.compare(raiz1.getValor(), elem) < 0 && raiz1.getDerecho() != null){
+                raiz1=raiz1.getDerecho();
+                pertenece(elem,raiz1);
+            }
+           if(comparador.compare(raiz1.getValor(), elem) > 0 && raiz1.getIzquierdo() != null){
+                raiz1=raiz1.getIzquierdo();
+                pertenece(elem,raiz1);
+            }
         }
 
-        if(raiz == null){
+        if(comparador.compare(raiz1.getValor(), elem) == 0){
+                return true;
+        }
+        else{
             return false;
         }
 
-        NodoBinario<T> aux = new NodoBinario<T>();
-        aux = raiz;
-       
-        while(control){
-            if(aux.getDerecho() == null && aux.getIzquierdo() == null){
-                return false;
-            }
-            if((comparador.compare(aux.getValor(), elem) > 0) && aux.getIzquierdo() != null){
-                aux = aux.getIzquierdo();
-            }  
-            if((comparador.compare(aux.getValor(), elem) < 0) && aux.getDerecho() != null){
-                aux = aux.getDerecho();
-            }    
-            if((comparador.compare(aux.getValor(), elem) == 0)){
-                control = false;
-            }
-        }
-        return true;
-
-
     }
-
-
     /**
      * {@inheritDoc}
      */
-    @Override
-    public void borrar(T elem) {
-        
-        boolean control = true;
-        NodoBinario<T> aux =  new NodoBinario<T>();
-        NodoBinario<T> aux2 =  new NodoBinario<T>();
 
-        if(comparador == null){
-            throw new UnsupportedOperationException("Comparador es null");
-        }
-
-        aux = raiz;
-        // Busqueda del elemento a buscar
-        while(control){
-            // Aux2 conserva el nodo anterior a aux
-            aux2 = aux;
-            if((comparador.compare(aux.getValor(), elem)) > 0){
-                aux = aux.getIzquierdo();
-            }
-
-            if((comparador.compare(aux.getValor(), elem)) < 0){
-                aux = aux.getDerecho();
-            }
-
-            if((comparador.compare(aux.getValor(), elem)) == 0){
-                control = false;
-            }
-        }
-
-        // Caso de borrado de una hoja
-        if (aux.getDerecho() == null && aux.getIzquierdo() == null){    
-            if((aux2.getDerecho()) != null  && comparador.compare(((aux2.getDerecho()).getValor()), aux.getValor()) == 0){
-                aux2.setDerecho(null);
-            }
-            else{
-                aux2.setIzquierdo(null);
-            }  
-        }else{
-            // Caso nodo con solamente hijo a la izquierda
-            if(aux.getDerecho() == null && aux.getIzquierdo() != null){
-                aux.setValor((aux.getIzquierdo()).getValor());
-                aux.setIzquierdo(null);
-            }
-            // Caso nodo con solamente hijo a la derecha
-            if(aux.getDerecho() != null && aux.getIzquierdo() == null){
-                aux.setValor((aux.getDerecho()).getValor());
-                aux.setDerecho(null);
-            }
-            // Caso del nodo que tiene sus dos hijos con nodos            
-            if(aux.getDerecho() != null && aux.getIzquierdo() != null){
-              ABB<T> arbolIzquierdo = new ABB<T>(comparador, aux.getIzquierdo());
-              T mayor = arbolIzquierdo.mayorValor();
-              aux.setValor(mayor);
-              arbolIzquierdo.borrar(mayor);
-            }  
-        }
-        reCalcularAltura(raiz);
+@Override
+public void borrar(T elem) {
+         if (comparador != null){
+             NodoBinario<T> root = raiz;
+             raiz = borrar2(root, elem);
+         } else
+             throw new UnsupportedOperationException("comparador is nul");
     }
-
+    private NodoBinario<T> borrar2(NodoBinario<T> nodo,T elem){
+        if(nodo == null ){
+            return nodo;
+        }
+        else{
+            int i = comparador.compare(nodo.getValor(),elem);
+            if(i < 0)
+                nodo.setDerecho(borrar2(nodo.getDerecho(), elem));
+            else if(i>0)
+                nodo.setIzquierdo(borrar2(nodo.getIzquierdo(), elem));
+            else{
+                if(nodo.getIzquierdo() == null && nodo.getDerecho() == null) {
+                    return null;
+                } else if(nodo.getIzquierdo() == null) {
+                    // nodo tiene hijo derecho
+                    return nodo.getDerecho();
+                } else if(nodo.getDerecho() == null) {
+                    // nodo tiene hijo izquierdo
+                    return nodo.getIzquierdo();
+                } else {
+                    // nodes with two nodes
+                    // search for min number in right sub tree
+                    ABB<T> subDerecho = new ABB<T>(comparador);
+                    subDerecho.raiz = nodo;
+                    T min = subDerecho.menorValor();
+                    nodo.setValor(min);
+                    nodo.setDerecho(borrar2(nodo.getDerecho(), min));
+                }
+            }
+            return nodo;
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -315,14 +294,19 @@ public class ABB<T> implements Diccionario<T> {
         }
 
         NodoBinario<T> aux = new NodoBinario<T>();
+        NodoBinario<T> aux2 = new NodoBinario<T>();
+
         aux = raiz;
         while(control){
+            aux2 = aux;
+            if(aux.getDerecho() == null || aux.getValor() == null){
+                control = false;
+                return aux2.getValor();
+            }
             if( (comparador.compare( aux.getValor(), (aux.getDerecho()).getValor()) ) < 0){
                 aux = aux.getDerecho();
             }
-            if(aux.getDerecho() == null){
-                control = false;
-            }
+
         }
         return aux.getValor();
     }
