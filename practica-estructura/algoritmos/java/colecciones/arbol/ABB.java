@@ -62,6 +62,13 @@ public class ABB<T> implements Diccionario<T> {
             control = false;
         }
 
+
+        if(raiz.getValor() == null){
+            raiz.setValor(elem);
+            control = false;
+        }
+
+
         aux = raiz;
         while(control){
             if(aux.getIzquierdo() == null && (comparador.compare(aux.getValor(), elem) > 0)){
@@ -455,6 +462,8 @@ public void borrar(T elem) {
     /**
      * {@inheritDoc}
      */
+
+    // Debe verificar dos cosas: Que el arbol realmente cumpla con el orden de un ABB, y que no tenga ciclos
     @Override
     public boolean repOK() {
         throw new UnsupportedOperationException("TODO: implementar");
@@ -465,15 +474,43 @@ public void borrar(T elem) {
      */
     @Override
     public String toString() {
-       return "" + aLista();
+        if(elementos() == 0){
+            return "[]";
+        }
+        else{
+            return "" + aLista();
+        }
     }
 
     /**
      * {@inheritDoc}
      */
+    // Debe cumplir: Misma altura, misma cantidad de elementos, pertenecer a la misma instancia, y tener los mismos elementos (ver como una lista)
+    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object other) {
-        throw new UnsupportedOperationException("TODO: implementar");
+        if(other == null){
+            return false;
+        }
+        if(other == this){
+            return true;
+        }
+        if(!(other instanceof Diccionario)){
+            return false;
+        }
+        ABB<T> arbol2 = (ABB<T>) other;
+        if(arbol2.elementos() != this.elementos()){
+            return false;
+        }
+        if(arbol2.altura() != this.altura()){
+            return false;
+        }
+        List<T> lista1 = this.aLista();
+        List<T> lista2 = arbol2.aLista();
+        if(!(lista1.equals(lista2))){
+            return false;
+        }
+        return true;
     }
 
     /**
