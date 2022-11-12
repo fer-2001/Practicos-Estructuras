@@ -177,13 +177,12 @@ public void borrar(T elem) {
                     // nodo tiene hijo izquierdo
                     return nodo.getIzquierdo();
                 } else {
-                    // nodes with two nodes
-                    // search for min number in right sub tree
-                    ABB<T> subDerecho = new ABB<T>(comparador);
-                    subDerecho.raiz = nodo;
-                    T min = subDerecho.menorValor();
+                    // Nodo con 2 hijos
+                    // buscamos el menor del subArbol derecho
+                    T min = this.subArbolDerecho().menorValor();
                     nodo.setValor(min);
-                    nodo.setDerecho(borrar2(nodo.getDerecho(), min));
+                    //Eliminamos el derecho
+                    nodo.setDerecho(borrar2(nodo.getDerecho(), nodo.getDerecho().getValor()));
                 }
             }
             return nodo;
