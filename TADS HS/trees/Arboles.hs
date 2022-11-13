@@ -7,12 +7,18 @@ data Tree a = Nil | N (Tree a) a (Tree a)
 --raiz (N hi r hd) = r
 
 inOrder :: (Tree a)-> [a]
+inOrder Nil = []
+inOrder (N Nil r Nil) = [r]
 inOrder (N hi r hd) = inOrder(hi) ++ [r] ++ inOrder(hd)
 
 preOrder:: (Tree a)-> [a]
+preOrder Nil = []
+preOrder (N Nil r Nil) = [r]
 preOrder (N hi r hd) = [r] ++ preOrder(hi) ++ preOrder(hd)
 
 postOrder:: (Tree a)-> [a]
+postOrder Nil = []
+postOrder (N Nil r Nil) = [r]
 postOrder (N hi r hd) =  preOrder(hi) ++ preOrder(hd) ++ [r]
 
 insertar :: (Ord a) =>  (Tree a) -> a -> (Tree a)
@@ -56,3 +62,13 @@ mayorValor (N hi r hd) = mayorValor hd
 menorValor :: (Tree a) -> a
 menorValor (N Nil r Nil) = r
 menorValor (N hi r hd) = menorValor hi
+
+sorted :: (Ord a) => [a] -> Bool
+sorted [] = True
+sorted [x] = True
+sorted (x:(y:xs)) = x <= y && sorted(y:xs)
+
+repOK :: (Ord a) => (Tree a) -> Bool
+repOK t@(N hi r hd) = sorted(inOrder((t)))
+
+
