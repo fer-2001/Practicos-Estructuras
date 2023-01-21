@@ -71,4 +71,12 @@ sorted (x:(y:xs)) = x <= y && sorted(y:xs)
 repOK :: (Ord a) => (Tree a) -> Bool
 repOK t@(N hi r hd) = sorted(inOrder((t)))
 
+size :: (Tree a) -> Int
+size Nil = 0
+size (N hi r hd) = 1 + size hi + size hd
 
+
+hojas :: (Tree a) -> Int
+hojas Nil = 0
+hojas (N Nil r Nil) = 1
+hojas (N hi r hd) = hojas hi + hojas hd
